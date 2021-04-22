@@ -1,6 +1,8 @@
 package com.IE_CA.CA5.services;
 
 import com.IE_CA.CA5.model.BolbolestanApplication;
+import com.IE_CA.CA5.model.CourseState;
+import com.IE_CA.CA5.model.Student;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,11 +10,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogoutService {
+public class RemoveCourseService {
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void loginStudent(@RequestParam String studentId) {
+    @RequestMapping(value = "/remove_course", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void removeCourse(@RequestParam String courseCode) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        app.setLoggedInStudentId("");
+        app.getLoggedInStudent().removeCourse(courseCode);
     }
 }

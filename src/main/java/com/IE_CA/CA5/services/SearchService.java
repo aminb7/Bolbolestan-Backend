@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class LogoutService {
+public class SearchService {
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void loginStudent(@RequestParam String studentId) {
+    @RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void setSearchFilter(@RequestParam(value = "filter") String filter) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        app.setLoggedInStudentId("");
+        app.setSearchFilter(filter);
     }
 }

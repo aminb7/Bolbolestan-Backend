@@ -1,4 +1,4 @@
-package com.IE_CA.CA5.model;
+package com.IE_CA.CA5.model.waitingListTimer;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;

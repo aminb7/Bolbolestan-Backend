@@ -67,7 +67,8 @@ public class Student {
 	public SelectedCourse removeCourse(String code) {
 		SelectedCourse selectedCourse = selectedCourses.get(code);
 
-		if (selectedCourse.getState() == CourseState.FINALIZED)
+		if (selectedCourse.getState() == CourseState.FINALIZED &&
+				selectedCourse.getCourseSelectionType() == CourseSelectionType.REGISTERED)
 			selectedCourse.getCourse().decrementNumOfStudents();
 
 		return selectedCourses.remove(code);
@@ -99,8 +100,11 @@ public class Student {
 	public void finalizeCourses() {
 		for (Map.Entry<String, SelectedCourse> entry : selectedCourses.entrySet()){
 			if (entry.getValue().getState() == CourseState.NON_FINALIZED) {
-				if (entry.getValue().getCourse().getCapacity() <= entry.getValue().getCourse().getNumberOfStudents()) {
+				boolean hasCapacity = entry.getValue().getCourse().getCapacity() <=
+						entry.getValue().getCourse().getNumberOfStudents();
+				if (!hasCapacity) {
 					entry.getValue().getCourse().addToWaitingList(this);
+					entry.getValue().setState(CourseState.FINALIZED);
 				}
 				else {
 					entry.getValue().getCourse().incrementNumOfStudents();
