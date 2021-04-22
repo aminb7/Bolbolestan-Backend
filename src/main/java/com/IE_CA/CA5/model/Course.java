@@ -92,28 +92,16 @@ public class Course {
 
 	public void addToWaitingList(Student student) {
 		waitingList.add(student);
-		System.out.println("waiting list size: ");
-		System.out.println(waitingList.size());
 	}
 
-	public String getHtmlTable() {
-		String result = "<td>" + this.code + "</td>"
-				+ "<td>" + this.classCode + "</td>"
-				+ "<td>" + this.name + "</td>"
-				+ "<td>" + this.units + "</td>"
-				+ "<td>" + this.capacity + "</td>"
-				+ "<td>" + this.type + "</td>"
-				+ this.classTime.getHtmlTable()
-				+ this.examTime.getHtmlTable()
-				+ "<td>" + String.join("|", this.prerequisites) + "</td>"
-				+ "<td><a href=\"/course/" + this.code + "/" + this.classCode + "\">Link</a></td>";
-		return result;
+	public ArrayList<Student> getWaitingList() {
+		return waitingList;
 	}
 
 	public void updateWaitingList() {
 		while (waitingList.size() != 0 && capacity > numberOfStudents) {
 			Student student = waitingList.get(0);
-			student.addCourse(this);
+			student.changeCourseSelectionType(code, CourseSelectionType.REGISTERED);
 			waitingList.remove(0);
 			incrementNumOfStudents();
 		}

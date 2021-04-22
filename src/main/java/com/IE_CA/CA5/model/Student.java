@@ -54,8 +54,14 @@ public class Student {
 		return birthDate;
 	}
 
-	public void addCourse(Course course) {
-		selectedCourses.put(course.getCode(), new SelectedCourse(course));
+	public void addCourse(Course course, CourseState state, CourseSelectionType courseSelectionType) {
+		selectedCourses.put(course.getCode(), new SelectedCourse(course, state, courseSelectionType));
+	}
+
+	public void changeCourseSelectionType(String code, CourseSelectionType type) {
+		SelectedCourse selectedCourse = selectedCourses.get(code);
+		if (selectedCourse != null)
+			selectedCourse.setCourseSelectionType(type);
 	}
 
 	public SelectedCourse removeCourse(String code) {
@@ -87,7 +93,7 @@ public class Student {
 	}
 
 	public void setGradedCourses(GradedCourse[] gradedCourses) {
-		List.of(gradedCourses).forEach(gradedCourse -> this.gradedCourses.put(gradedCourse.getCode(), gradedCourse));
+		List.of(gradedCourses).forEach(gradedCourse -> this.gradedCourses.put(gradedCourse.getCourse().getCode(), gradedCourse));
 	}
 
 	public void finalizeCourses() {

@@ -1,16 +1,20 @@
 package com.IE_CA.CA5.services;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.IE_CA.CA5.model.BolbolestanApplication;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/login")
 public class LoginService {
 
-    @GetMapping
-    public boolean loginStudent() {
-        return false;
+    @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    public boolean loginStudent(@RequestParam String studentId) {
+        BolbolestanApplication app = BolbolestanApplication.getInstance();
+        if (app.studentExists(studentId)) {
+            app.setLoggedInStudentId(studentId);
+            return true;
+        }
+        else
+            return false;
     }
 }

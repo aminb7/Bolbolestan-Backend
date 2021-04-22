@@ -3,10 +3,12 @@ package com.IE_CA.CA5.model;
 public class SelectedCourse {
 	private Course course;
 	private CourseState state;
+	private CourseSelectionType courseSelectionType;
 
-	public SelectedCourse(Course course) {
+	public SelectedCourse(Course course, CourseState state, CourseSelectionType courseSelectionType) {
 		this.course = course;
-		this.state = CourseState.NON_FINALIZED;
+		this.state = state;
+		this.courseSelectionType = courseSelectionType;
 	}
 
 	public Course getCourse() {
@@ -17,7 +19,15 @@ public class SelectedCourse {
 		return state;
 	}
 
+	public CourseSelectionType getCourseSelectionType() {
+		return courseSelectionType;
+	}
+
 	public void setState(CourseState state) {
 		this.state = state;
+	}
+
+	public void setCourseSelectionType(CourseSelectionType courseSelectionType) {
+		this.courseSelectionType = courseSelectionType;
 	}
 }

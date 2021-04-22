@@ -114,7 +114,7 @@ public class BolbolestanApplication {
     public void updateWaitingLists() {
         for (Map.Entry<String, Map<String, Course>> entry : this.courses.entrySet()) {
             for (Map.Entry<String, Course> course : entry.getValue().entrySet()) {
-
+                course.getValue().updateWaitingList();
             }
         }
     }
