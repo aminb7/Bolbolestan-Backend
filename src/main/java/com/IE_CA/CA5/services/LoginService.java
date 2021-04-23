@@ -10,7 +10,6 @@ public class LoginService {
     @RequestMapping(value = "/login", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean loginStudent(@RequestParam String studentId) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        System.out.println(studentId);
         if (app.studentExists(studentId)) {
             app.setLoggedInStudentId(studentId);
             return true;

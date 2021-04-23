@@ -6,10 +6,7 @@ public enum CourseState {
 
 	@Override
 	public String toString() {
-		return switch (this) {
-			case FINALIZED -> "finalized";
-			case NON_FINALIZED -> "non-finalized";
-			default -> "";
-		};
+		if (this == FINALIZED) return "finalized";
+		else return "non-finalized";
 	}
 }

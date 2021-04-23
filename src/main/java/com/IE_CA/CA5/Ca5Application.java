@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Ca5Application {
+
 	public static void main(String[] args) {
 		SpringApplication.run(Ca5Application.class, args);
 	}
+
 }

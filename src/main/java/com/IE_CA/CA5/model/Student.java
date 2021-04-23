@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.*;
 
 public class Student {
-	private final String id;
+	pvate final String id;
 	private final String name;
 	private final String secondName;
 	private final String birthDate;
@@ -94,7 +94,7 @@ public class Student {
 	}
 
 	public void setGradedCourses(GradedCourse[] gradedCourses) {
-		List.of(gradedCourses).forEach(gradedCourse -> this.gradedCourses.put(gradedCourse.getCourse().getCode(), gradedCourse));
+		List.of(gradedCourses).forEach(gradedCourse -> this.gradedCourses.put(gradedCourse.getCode(), gradedCourse));
 	}
 
 	public void finalizeCourses() {
@@ -136,43 +136,5 @@ public class Student {
 		}
 
 		return result / unitsSum;
-	}
-
-	public String getSubmittedCourseNameByTime(int dayIndex, int sessionIndex) {
-		for (Map.Entry<String, SelectedCourse> entry : selectedCourses.entrySet()) {
-			ClassTime classTime = entry.getValue().getCourse().getClassTime();
-			int currentSessionIndex;
-			switch (classTime.getStart().toString()) {
-				case "07:30" -> currentSessionIndex = 0;
-				case "09:00" -> currentSessionIndex = 1;
-				case "10:30" -> currentSessionIndex = 2;
-				case "14:00" -> currentSessionIndex = 3;
-				case "16:00" -> currentSessionIndex = 4;
-				default -> currentSessionIndex = 0;
-			}
-
-			int currentDayIndex;
-			boolean containsDay = false;
-			for (String day : classTime.getDays()) {
-				switch (day) {
-					case "Saturday" -> currentDayIndex = 0;
-					case "Sunday" -> currentDayIndex = 1;
-					case "Monday" -> currentDayIndex = 2;
-					case "Tuesday" -> currentDayIndex = 3;
-					case "Wednesday" -> currentDayIndex = 4;
-					default -> currentDayIndex = 0;
-				}
-
-				if (currentDayIndex == dayIndex) {
-					containsDay = true;
-					break;
-				}
-			}
-
-			if (entry.getValue().getState() == CourseState.FINALIZED)
-				if (currentSessionIndex == sessionIndex && containsDay)
-					return entry.getValue().getCourse().getName();
-		}
-		return "";
 	}
 }
