@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.*;
 
 public class Student {
-	pvate final String id;
+	private final String id;
 	private final String name;
 	private final String secondName;
 	private final String birthDate;
