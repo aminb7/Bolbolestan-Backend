@@ -54,6 +54,26 @@ public class Student {
 		return birthDate;
 	}
 
+	public String getField() {
+		return field;
+	}
+
+	public String getFaculty() {
+		return faculty;
+	}
+
+	public String getLevel() {
+		return level;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public String getImg() {
+		return img;
+	}
+
 	public void addCourse(Course course, CourseState state, CourseSelectionType courseSelectionType) {
 		selectedCourses.put(course.getCode(), new SelectedCourse(course, state, courseSelectionType));
 	}

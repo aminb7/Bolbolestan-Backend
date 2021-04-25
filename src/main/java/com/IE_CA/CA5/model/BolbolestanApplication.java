@@ -61,7 +61,6 @@ public class BolbolestanApplication {
         try {
             Map<String, String> rawGrades = RawDataCollector.requestGrades(host, studentIds);
             for (Student student : studentsList) {
-                System.out.println(rawGrades.get(student.getId()));
                 student.setGradedCourses(JsonParser.createObject(rawGrades.get(student.getId()), GradedCourse[].class));
 
                 for (Map.Entry<String, GradedCourse> entry : student.getGradedCourses().entrySet()) {
@@ -72,7 +71,6 @@ public class BolbolestanApplication {
             List.of(studentsList).forEach(student -> this.students.put(student.getId(), student));
         }
         catch (Exception e) {
-            System.out.println(e.getMessage());
         }
     }
 

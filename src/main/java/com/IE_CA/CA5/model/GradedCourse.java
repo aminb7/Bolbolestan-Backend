@@ -17,6 +17,10 @@ public class GradedCourse {
 		this.term = term;
 	}
 
+	public int getTerm() {
+		return term;
+	}
+
 	public String getCode() {
 		return code;
 	}
