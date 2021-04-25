@@ -1,0 +1,121 @@
+.aside_border {
+    border-left: #008fe0;
+    border-left-style: solid;
+}
+
+.aside_margin {
+    margin-top: 10%;
+}
+
+.aside_text {
+    font-family: vazir;
+    font-size: 6mm;
+    text-align: center;
+}
+
+.aside_title_text {
+    color: #1fa5ff;
+}
+
+.student_state_text {
+    border: #1fa5ff;
+    border-style: solid;
+    margin: 0 20% 0 20%;
+}
+
+.carousel-indicators > li {
+    border-radius: 100%;
+}
+
+.workbook_section {
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 1cm;
+}
+
+.workbook {
+    /* border: 1px solid #008fe0;
+    padding: 0% 3% 0% 3%;
+    margin-bottom: 1cm;
+    border-radius: 2%; */
+}
+
+.total_average {
+    font-family: vazir;
+    font-size: 6mm;
+    text-align: left;
+}
+
+table {
+    border-collapse:separate;
+    border-spacing:0 15px;
+}
+
+.table_text {
+    font-family: vazir;
+    font-size: 5mm;
+    text-align: center;
+}
+
+tr, td {
+    border: 1px solid #008fe0;
+    border-width: 0.7mm;
+    text-align: center;
+    border-radius: 5%;
+}
+
+table tr td:nth-child(1) {
+    width: 5%;
+}
+
+table tr td:nth-child(2) {
+    width: 15%;
+}
+
+table tr td:nth-child(3) {
+    width: 55%;
+}
+
+table tr td:nth-child(4) {
+    width: 15%;
+}
+
+table tr td:nth-child(5) {
+    width: 5%;
+}
+
+table tr td:nth-child(6) {
+    width: 5%;
+}
+
+.navbar
+{
+	border-bottom:2px solid #1fa5ff;
+}
+
+.my-custom-scrollbar {
+	position: relative;
+	height: 300px;
+	overflow: auto;
+}
+.table-wrapper-scroll-y {
+	display: block;
+}
+
+.green_bordered_text {
+	outline: 1.5px solid green;
+	color: green;
+	outline-offset: -8px;
+}
+
+.blue_bordered_text {
+	outline: 2px solid rgb(74, 189, 235);
+	color: rgb(74, 189, 235);
+	outline-offset: -8px;
+}
+
+.gray_bordered_text {
+	outline: 2px solid gray;
+	color: gray;
+	outline-offset: -8px;
+}

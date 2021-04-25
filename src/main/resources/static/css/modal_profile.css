@@ -1,0 +1,17 @@
+.dark_background {
+    opacity: 70%;
+}
+
+.window {
+    display: block;
+    margin-top: 7cm;
+    border-radius: 100%;
+}
+
+.modal_btn_size {
+    width: 100px;
+}
+
+.cancel_btn {
+    border: 1px solid black;
+}

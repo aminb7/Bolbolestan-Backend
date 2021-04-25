@@ -1,0 +1,136 @@
+.aside_border {
+    border-left: 4px solid #008fe0;
+}
+
+.aside_margin {
+    margin-top: 10%;
+}
+
+.aside_text {
+    font-family: vazir;
+    font-size: 6mm;
+    text-align: center;
+}
+
+.aside_title_text {
+    color: #1fa5ff;
+}
+
+.student_state_text {
+    border: #1fa5ff;
+    border-style: solid;
+    margin: 0 20% 0 20%;
+}
+
+.carousel-indicators > li {
+    border-radius: 100%;
+}
+
+.workbook_section {
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 1cm;
+}
+
+.workbook {
+    border: 3px solid #008fe0;
+    padding: 0% 3% 0% 3%;
+    margin-bottom: 1cm;
+    border-radius: 2%;
+}
+
+.legend_text {
+    font-family: vazir;
+    font-size: 6mm;
+    color: #ffffff;
+    background-color: #008fe0;
+    border: 1px solid #008fe0;
+    border-radius: 15%;
+    width: auto;
+    padding: 1mm;
+}
+
+.total_average {
+    font-family: vazir;
+    font-size: 6mm;
+    text-align: left;
+}
+
+table {
+    border-collapse:separate;
+    border-spacing:0 15px;
+}
+
+.table_text {
+    font-family: vazir;
+    font-size: 5mm;
+    text-align: center;
+}
+
+tr, td {
+    border: 2px solid #008fe0;
+    text-align: center;
+    border-radius: 5%;
+}
+
+table tr td:nth-child(1) {
+    width: 8%;
+    font-size: 6mm;
+    color: #008fe0;
+}
+
+table tr td:nth-child(2) {
+    width: 17%;
+}
+
+table tr td:nth-child(3) {
+    width: 38%;
+}
+
+table tr td:nth-child(4) {
+    width: 15%;
+}
+
+table tr td:nth-child(5) {
+    width: 17%;
+}
+
+table tr td:nth-child(6) {
+    width: 5%;
+}
+
+.failed_color {
+    color: rgb(255, 26, 26);
+}
+
+.failed_border {
+    background-color: rgba(255, 26, 26, 0.2);
+    border: 3px solid rgb(255, 26, 26);
+    border-radius: 20%;
+    width: 100px;
+    padding: 0 10% 0 10%;
+}
+
+.succeeded_color {
+    color: rgb(40, 167, 69);
+}
+
+.succeeded_border {
+    background-color: rgba(40, 167, 69, 0.2);
+    border: 3px solid rgb(40, 167, 69);
+    border-radius: 20%;
+    width: 100px;
+    padding: 0 10% 0 10%;
+}
+
+.unknown_color {
+    color: black;
+}
+
+.unknown_border {
+    background-color: rgba(0, 0, 0, 0.2);
+    border: 3px solid black;
+    border-radius: 20%;
+    width: 100px;
+    padding: 0 10% 0 10%;
+}

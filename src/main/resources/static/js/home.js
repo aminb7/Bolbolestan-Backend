@@ -1,11 +1,3 @@
-function BolbolestanHeader() {
-    return <h1>salam</h1>;
-}
-
-function BolbolestanFooter() {
-    return <h1>khodafez</h1>;
-}
-
 function BolbolestanCarousel() {
     return <h1>BolbolestanCarousel</h1>;
 }
@@ -47,7 +39,7 @@ class HomePage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="container">
                 <BolbolestanHeader />
                 <BolbolestanCarousel />
                 <GradesSection />
