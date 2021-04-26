@@ -5,18 +5,18 @@ class LoginPart extends React.Component {
 
     render() {
         return (
-            <div class="container">
-                <h1>Login Form</h1>
+            <div className="container login_text">
+                <h1>صفحه‌ی ورود</h1>
 
-                <form class="login_form">
-                    <div class="login_img_container">
-                        <img src="../images/icons/login_avatar.png" alt="Avatar" class="login_avatar"/>
+                <form className="login_form">
+                    <div className="login_img_container">
+                        <img src="../images/icons/login_avatar.png" alt="Avatar" className="login_avatar"/>
                     </div>
 
-                    <div class="container login_container">
-                        <label for="sid"><b>Student Id</b></label>
-                        <input type="text" placeholder="Enter Student Id" class="login_input" name="sid" required/>
-                        <button type="submit" class="login_button">Login</button>
+                    <div className="container login_container">
+                        <label for="sid"><b>شماره دانشجویی</b></label>
+                        <input type="text" placeholder="شماره دانشجویی خود را وارد کنید." className="login_input" name="sid" required/>
+                        <button type="submit" className="login_button">ورود</button>
                     </div>
                 </form>
             </div>
