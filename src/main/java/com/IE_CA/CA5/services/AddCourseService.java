@@ -14,16 +14,16 @@ import java.util.Map;
 public class AddCourseService {
 
     @RequestMapping(value = "/add_course", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void addCourse(@RequestParam String courseCode, @RequestParam String classCode) {
+    public boolean addCourse(@RequestParam String courseCode, @RequestParam String classCode) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         Map<String, Course> courseGroup = app.getCourses().get(courseCode);
         if (courseGroup == null)
-            return;
+            return false;
 
         Course course = courseGroup.get(classCode);
         Student student = app.getLoggedInStudent();
         if (course == null || student == null)
-            return;
+            return false;
 
         boolean hasConflict = false;
 
@@ -34,11 +34,12 @@ public class AddCourseService {
         }
 
         if (student.getSelectedCourses().containsKey(courseCode) || hasConflict)
-            return;
+            return false;
 
         if (course.getNumberOfStudents() >= course.getCapacity())
             student.addCourse(course, CourseState.NON_FINALIZED, CourseSelectionType.WAITING_LIST);
         else
             student.addCourse(course, CourseState.NON_FINALIZED, CourseSelectionType.REGISTERED);
+        return true;
     }
 }
