@@ -6,13 +6,6 @@
     margin-top: 10%;
 }
 
-.profile_image {
-    width: 6cm;
-    height: 6cm;
-    border: 3px solid #008fe0;
-    border-radius: 50%;
-}
-
 .aside_text {
     font-family: vazir;
     font-size: 6mm;
@@ -27,10 +20,11 @@
     border: #1fa5ff;
     border-style: solid;
     margin: 0 20% 0 20%;
+    border-radius: 8px;
 }
 
 .carousel-indicators > li {
-    border-radius: 100%;
+    border-radius: 1000px;
 }
 
 .workbook_section {
@@ -43,7 +37,7 @@
     border: 3px solid #008fe0;
     padding: 0% 3% 0% 3%;
     margin-bottom: 1cm;
-    border-radius: 2%;
+    border-radius: 10px;
 }
 
 .legend_text {
@@ -52,7 +46,7 @@
     color: #ffffff;
     background-color: #008fe0;
     border: 1px solid #008fe0;
-    border-radius: 15%;
+    border-radius: 12px;
     width: auto;
     padding: 1mm;
 }
@@ -61,6 +55,11 @@
     font-family: vazir;
     font-size: 6mm;
     text-align: left;
+    color: #008fe0;
+    border: 2px solid #008fe0;
+    border-radius: 5px;
+    margin-right: 75%;
+    text-align: center;
 }
 
 table {
@@ -75,15 +74,16 @@ table {
 }
 
 tr, td {
-    border: 2px solid #008fe0;
+    border: 1px solid #008fe0;
     text-align: center;
-    border-radius: 5%;
 }
 
 table tr td:nth-child(1) {
     width: 8%;
     font-size: 6mm;
     color: #008fe0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 table tr td:nth-child(2) {
@@ -104,6 +104,8 @@ table tr td:nth-child(5) {
 
 table tr td:nth-child(6) {
     width: 5%;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
 }
 
 .failed_color {
@@ -113,7 +115,7 @@ table tr td:nth-child(6) {
 .failed_border {
     background-color: rgba(255, 26, 26, 0.2);
     border: 3px solid rgb(255, 26, 26);
-    border-radius: 20%;
+    border-radius: 10px;
     width: 100px;
     padding: 0 10% 0 10%;
 }
@@ -125,7 +127,7 @@ table tr td:nth-child(6) {
 .succeeded_border {
     background-color: rgba(40, 167, 69, 0.2);
     border: 3px solid rgb(40, 167, 69);
-    border-radius: 20%;
+    border-radius: 10px;
     width: 100px;
     padding: 0 10% 0 10%;
 }
@@ -137,7 +139,7 @@ table tr td:nth-child(6) {
 .unknown_border {
     background-color: rgba(0, 0, 0, 0.2);
     border: 3px solid black;
-    border-radius: 20%;
+    border-radius: 10px;
     width: 100px;
     padding: 0 10% 0 10%;
 }

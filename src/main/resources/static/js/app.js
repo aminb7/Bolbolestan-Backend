@@ -1,3 +1,3 @@
-function app() {
-    return (<HomePage />);
+function app(props) {
+    return (<PlanPage />);
 }

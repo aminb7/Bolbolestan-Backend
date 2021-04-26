@@ -16,8 +16,6 @@ public class AddCourseService {
     @RequestMapping(value = "/add_course", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public void addCourse(@RequestParam String courseCode, @RequestParam String classCode) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        app.getLoggedInStudent().removeCourse(courseCode);
-
         Map<String, Course> courseGroup = app.getCourses().get(courseCode);
         if (courseGroup == null)
             return;
