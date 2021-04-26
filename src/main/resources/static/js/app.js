@@ -1,3 +1,3 @@
 function app(props) {
-    return (<PlanPage />);
+    return (<LoginPage />);
 }
