@@ -163,7 +163,7 @@ class PlanPage extends React.Component {
     render() {
         return (
             <div>
-                <BolbolestanHeader />
+                <BolbolestanHeader src="plan" text2="انتخاب واحد" text1="خانه" />
                 <WeeklySchedule />
                 <BolbolestanFooter />
             </div>

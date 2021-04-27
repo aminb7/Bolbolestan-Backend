@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class LogoutService {
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void loginStudent(@RequestParam String studentId) {
+    public void loginStudent() {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         app.setLoggedInStudentId("");
     }

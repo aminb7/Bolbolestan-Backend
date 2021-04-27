@@ -19,18 +19,21 @@
     font-family: vazir;
     font-size: 8mm;
     color: #1fa5ff;
+    cursor: pointer;
 }
 
 .header_text {
     font-family: vazir;
     font-size: 8mm;
     color: #0f9dfc;
+    cursor: pointer;
 }
 
 .header_logout_text {
     font-family: vazir;
     font-size: 8mm;
     color: #ff595e;
+    cursor: pointer;
 }
 
 .header_logout_text:hover {
@@ -41,6 +44,7 @@
 
 .header_logout {
     float: left;
+    cursor: pointer;
 }
 
 .header_logout_icon {
@@ -49,6 +53,7 @@
     float: left;
     margin-top: 20%;
     margin-left: 20%;
+    cursor: pointer;
 }
 
 .footer_color {

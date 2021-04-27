@@ -154,7 +154,7 @@ class HomePage extends React.Component {
     render() {
         return (
             <div className="container">
-                <BolbolestanHeader />
+                <BolbolestanHeader src="home" text1="انتخاب واحد" text2="برنامه هفتگی" />
                 <BolbolestanCarousel />
                 <ProfileSection />
                 <BolbolestanFooter />
