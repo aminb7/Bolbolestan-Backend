@@ -59,7 +59,7 @@ function StudentDetails(props) {
             <p><span className="aside_title_text">نام: </span>{props.name}</p>
             <p><span className="aside_title_text">شماره دانشجویی: </span>{props.id}</p>
             <p><span className="aside_title_text">تاریخ تولد: </span>{props.birthDate}</p>
-            <p><span className="aside_title_text">معدل کل: </span>{props.gpa}</p>
+            <p><span className="aside_title_text">معدل کل: </span>{props.gpa.toFixed(3)}</p>
             <p><span className="aside_title_text">واحد گذرانده: </span>{props.totalPassedUnits}</p>
             <p><span className="aside_title_text">دانشکده: </span>{props.faculty}</p>
             <p><span className="aside_title_text">رشته: </span>{props.field}</p>
@@ -78,7 +78,7 @@ function TermGradesTable(props) {
     return (
         <fieldset className="workbook">
             <legend className="legend_text">کارنامه - ترم {props.courses[0].term}</legend>
-            <table className="table_text">
+            <table className="table_text table_home">
                 {props.courses.map((gradedCourse, index) => (
                     <tr>
                         <td>{1 + index}</td>
@@ -91,7 +91,7 @@ function TermGradesTable(props) {
                     </tr>
                 ))}
             </table>
-            <p className="total_average">{"معدل: " + String(avg)}</p>
+            <p className="total_average">{"معدل: " + String(avg.toFixed(2))}</p>
         </fieldset>
     );
 }

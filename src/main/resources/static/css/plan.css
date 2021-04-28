@@ -20,7 +20,7 @@
     color: black;
 }
 
-table, th, td {
+.table_plan th, .table_plan td {
     border: 1px solid black;
     border-collapse: collapse;
     padding: 15px 0;
@@ -37,28 +37,28 @@ td p {
 .specialized_course_border {
     border-right: 5px solid #008fe0;
     background-color: rgba(0, 143, 224, 0.5);
-    border-radius: 10%;
+    border-radius: 10px;
     margin: 0 3px 0 3px;
 }
 
 .basic_course_border {
     border-right: 5px solid #06d6a0;
     background-color: rgba(6, 214, 160, 0.5);
-    border-radius: 10%;
+    border-radius: 10px;
     margin: 0 3px 0 3px;
 }
 
 .main_course_border {
     border-right: 5px solid #ff595e;
     background-color: rgba(255, 89, 94, 0.5);
-    border-radius: 10%;
+    border-radius: 10px;
     margin: 0 3px 0 3px;
 }
 
 .general_course_border {
     border-right: 5px solid #edbb41;
     background-color: rgba(237, 187, 65, 0.5);
-    border-radius: 10%;
+    border-radius: 10px;
     margin: 0 3px 0 3px;
 }
 
@@ -66,27 +66,27 @@ td p {
     text-align: center;
 }
 
-table tr td:nth-child(1) {
+.table_plan tr, .table_plan td:nth-child(1) {
     width: 10%;
 }
 
-table tr td:nth-child(2) {
+.table_plan tr, .table_plan td:nth-child(2) {
     width: 15%;
 }
 
-table tr td:nth-child(3) {
+.table_plan tr, .table_plan td:nth-child(3) {
     width: 15%;
 }
 
-table tr td:nth-child(4) {
+.table_plan tr, .table_plan td:nth-child(4) {
     width: 15%;
 }
 
-table tr td:nth-child(5) {
+.table_plan tr, .table_plan td:nth-child(5) {
     width: 15%;
 }
 
-table tr td:nth-child(6) {
+.table_plan tr, .table_plan td:nth-child(6) {
     width: 15%;
 }
 

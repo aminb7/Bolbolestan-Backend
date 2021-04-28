@@ -19,7 +19,7 @@ class LoginPart extends React.Component {
             .then(response => response.json())
             .then((data) => {
                 if (data == true) ReactDOM.render(<HomePage />, document.getElementById('app'));
-                else alert('Student Id does not exists.');
+                else alert('شماره دانشجویی نامعتبر است!');
             });
     }
 

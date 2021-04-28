@@ -133,7 +133,7 @@ class WeeklySchedule extends React.Component {
         const dayNumbers = [1,2,3,4,5,6];
         return (
             <div className="row skedule_section">
-                <table className="col-lg-12 skedule table_border">
+                <table className="table table_plan col-lg-12 skedule table_border">
                     <ScheduleHeader />
                     <DaysRow />
                     {timeSlots.map((timeSlot, index) => (

@@ -8,11 +8,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class SearchService {
+public class TypeSearchService {
 
-        @RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void setSearchFilter(@RequestParam(value = "filter") String filter) {
-        BolbolestanApplication app = BolbolestanApplication.getInstance();
-        app.setSearchFilter(filter);
-    }
+	@RequestMapping(value = "/typesearch", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public void setSearchFilter(@RequestParam(value = "filter") String filter) {
+		BolbolestanApplication app = BolbolestanApplication.getInstance();
+		app.setTypeSearchFilter(filter);
+	}
 }

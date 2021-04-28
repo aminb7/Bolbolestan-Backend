@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ResetService {
 
-    @RequestMapping(value = "/search", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/reset", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
     public void reset() {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         Student student = app.getLoggedInStudent();

@@ -50,7 +50,7 @@
 .table1 th, .table1 tr, .table1 td {
     border: 3px solid gray;
     text-align: center;
-    border-radius: 5%;
+    border-radius: 5px;
 }
 
 .table1 tr, .table1 td:nth-child(1) {
@@ -170,6 +170,7 @@
     height: 8mm;
     position: relative;
     margin-left: 15%;
+    cursor: pointer;
 }
 
 .blue_text {
@@ -262,7 +263,7 @@ input{
     font-weight: bold;
 }
 
-.blue_button {
+.select_type:focus {
     background-color: rgb(149, 209, 255);
 }
 
@@ -286,15 +287,16 @@ input{
 
 .table2 {
     margin-right: -3.5%;
-    margin-bottom: -0.5%;
+    margin-bottom: 16%;
     width: 107%;
     border-collapse: collapse;
     border-radius: 5px;
     border-style: hidden;
     box-shadow: 0 0 0 2px #008fe0;
+    cursor: pointer;
 }
 
-.table2 tr td {
+.table2 tr, .table2 td {
     border: 3px solid gray;
     text-align: center;
     border-radius: 5px;
@@ -314,42 +316,42 @@ input{
     border-left: 3px solid #008fe0;
 }
 
-.table2 tr td:nth-child(1) {
-    width: 3%;
+.table2 tr, .table2 td:nth-child(1) {
+    width: 2%;
     border-right-color: #008fe0;
 }
 
-.table2 tr td:nth-child(2) {
-    width: 8%;
+.table2 tr, .table2 td:nth-child(2) {
+    width: 15%;
     vertical-align: middle;
 }
 
-.table2 tr td:nth-child(3) {
+.table2 tr, .table2 td:nth-child(3) {
     width: 4%;
     vertical-align: middle;
 }
 
-.table2 tr td:nth-child(4) {
+.table2 tr, .table2 td:nth-child(4) {
     width: 8%;
     vertical-align: middle;
 }
 
-.table2 tr td:nth-child(5) {
-    width: 25%;
+.table2 tr, .table2 td:nth-child(5) {
+    width: 23%;
     vertical-align: middle;
 }
 
-.table2 tr td:nth-child(6) {
+.table2 tr, .table2 td:nth-child(6) {
     width: 18%;
     vertical-align: middle;
 }
 
-.table2 tr td:nth-child(7) {
+.table2 tr, .table2 td:nth-child(7) {
     width: 1%;
     vertical-align: middle;
 }
 
-.table2 tr td:nth-child(8) {
+.table2 tr, .table2 td:nth-child(8) {
     width: 25%;
     vertical-align: middle;
     border-left-color: #008fe0;
@@ -378,8 +380,8 @@ table {
     background-color: rgb(237, 187, 65);
     color: white;
     border-radius: 5px;
-    padding-right: 10%;
-    padding-left: 10%;
+    padding-right: 3%;
+    padding-left: 3%;
 }
 
 .green_blocked_text {
@@ -396,8 +398,8 @@ table {
     background-color: rgb(255, 89, 94);
     color: white;
     border-radius: 5px;
-    padding-right: 30%;
-    padding-left: 30%;
+    padding-right: 3%;
+    padding-left: 3%;
 }
 
 .blue_blocked_text {
@@ -490,5 +492,5 @@ table {
 }
 
 .go_down {
-    bottom: -30px;
+    /*bottom: -30px;*/
 }

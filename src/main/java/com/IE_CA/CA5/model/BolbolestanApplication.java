@@ -15,6 +15,7 @@ public class BolbolestanApplication {
     private Map<String, Student> students;
     private String loggedInStudentId;
     private String searchFilter;
+    private String typeSearchFilter;
 
     private BolbolestanApplication()
     {
@@ -22,6 +23,7 @@ public class BolbolestanApplication {
         this.students = new HashMap<>();
         this.loggedInStudentId = "";
         this.searchFilter = "";
+        this.typeSearchFilter = "all";
         fillInformation();
     }
 
@@ -98,13 +100,18 @@ public class BolbolestanApplication {
         this.searchFilter = searchFilter;
     }
 
+    public void setTypeSearchFilter(String typeSearchFilter) {
+        this.typeSearchFilter = typeSearchFilter;
+    }
+
     public List<Course> getFilteredCourses() {
         List<Course> courses = new ArrayList<>();
 
         for (Map.Entry<String, Map<String, Course>> entry : this.courses.entrySet()) {
             for (Map.Entry<String, Course> course : entry.getValue().entrySet()) {
                 if (course.getValue().getName().contains(searchFilter))
-                    courses.add(course.getValue());
+                    if (typeSearchFilter.equals("all") || typeSearchFilter.equals(course.getValue().getType()))
+                        courses.add(course.getValue());
             }
         }
 
