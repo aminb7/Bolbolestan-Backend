@@ -1,9 +1,10 @@
 class LoginPart extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {sid : ''};
         this.sendLogin = this.sendLogin.bind(this);
         this.handleSid = this.handleSid.bind(this);
-        this.state = {sid : ''};
+        this.handleSignup = this.handleSignup.bind(this);
     }
 
     sendLogin(event) {
@@ -27,6 +28,10 @@ class LoginPart extends React.Component {
         this.setState(prevState => ({sid: event.target.value}));
     }
 
+    handleSignup(event) {
+        ReactDOM.render(<SignupPage />, document.getElementById('app'));
+    }
+
     render() {
         return (
             <div className="container login_text">
@@ -38,9 +43,16 @@ class LoginPart extends React.Component {
                     </div>
 
                     <div className="container login_container">
-                        <label for="sid"><b>شماره دانشجویی</b></label>
-                        <input type="text" placeholder="شماره دانشجویی خود را وارد کنید." className="login_input" onChange={this.handleSid} required/>
+                        <label for="email"><b>ایمیل</b></label>
+                        <input type="text" placeholder="ایمیل خود را وارد کنید." className="login_input" onChange={this.handleSid} required/>
+
+                        <br/>
+
+                        <label for="password"><b>رمز عبور</b></label>
+                        <input type="password" placeholder="رمز خود را وارد کنید." className="login_input"/>
                         <button type="submit" className="login_button">ورود</button>
+
+                        <button type="button" onClick={this.handleSignup} className="login_button">صفحه ثبت نام</button>
                     </div>
                 </form>
             </div>
@@ -54,6 +66,15 @@ class LoginPage extends React.Component {
     }
 
     render() {
+        let x = false;
+        fetch('loggedin_student')
+            .then(resp => resp.json())
+            .then(data => {
+                x = !!Object.keys(data).length;
+                if (x)
+                    return ReactDOM.render(<HomePage />, document.getElementById('app'));
+            });
+
         return (
             <div>
                 <LoginPart />
