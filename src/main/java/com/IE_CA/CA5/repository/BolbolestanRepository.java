@@ -1,6 +1,7 @@
 package com.IE_CA.CA5.repository;
 
 import com.IE_CA.CA5.model.Course;
+import com.IE_CA.CA5.model.Student;
 import com.IE_CA.CA5.utilities.JsonParser;
 import com.IE_CA.CA5.utilities.RawDataCollector;
 
@@ -88,8 +89,39 @@ public class BolbolestanRepository {
         con.close();
     }
 
-    private void fillStudents() {
+    private void fillStudents() throws SQLException {
+        String host = "http://138.197.181.131:5100";
+        Student[] studentsList = null;
+        try {
+            studentsList = JsonParser.createObject(RawDataCollector.requestStudents(host), Student[].class);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
 
+        Connection con = ConnectionPool.getConnection();
+        PreparedStatement stmt = con.prepareStatement("INSERT INTO Students VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) on duplicate key update id = id");
+        List.of(studentsList).forEach(student -> {
+            try {
+                stmt.setString(1, student.getId());
+                stmt.setString(2, student.getName());
+                stmt.setString(3, student.getSecondName());
+                stmt.setString(4, student.getEmail());
+                stmt.setString(5, student.getPassword());
+                stmt.setString(6, student.getBirthDate());
+                stmt.setString(7, student.getField());
+                stmt.setString(8, student.getFaculty());
+                stmt.setString(9, student.getLevel());
+                stmt.setString(10, student.getStatus());
+                stmt.setString(11, student.getImg());
+                stmt.addBatch();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
+        int[] updateCounts = stmt.executeBatch();
+        stmt.close();
+        con.close();
     }
 
     private void fillGradedCourses() {
