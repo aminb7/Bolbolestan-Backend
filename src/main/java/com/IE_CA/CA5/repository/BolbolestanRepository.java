@@ -23,11 +23,10 @@ public class BolbolestanRepository {
 
     private BolbolestanRepository() throws SQLException {
         Connection con = ConnectionPool.getConnection();
-        PreparedStatement createTableStatement = con.prepareStatement(
-                String.format("CREATE TABLE IF NOT EXISTS %s(id CHAR(50),\nname CHAR(225),\nhabitat CHAR(225),\nPRIMARY KEY(id));", TABLE_NAME)
-        );
-        createTableStatement.executeUpdate();
-        createTableStatement.close();
+//        PreparedStatement createTableStatement = con.prepareStatement(
+//        );
+//        createTableStatement.executeUpdate();
+//        createTableStatement.close();
         con.close();
     }
 }
