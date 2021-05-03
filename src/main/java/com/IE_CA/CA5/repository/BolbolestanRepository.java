@@ -33,7 +33,9 @@ public class BolbolestanRepository {
         Statement stmt = con.createStatement();
         stmt.addBatch("CREATE TABLE IF NOT EXISTS Courses(code CHAR(100),\nclassCode CHAR(100),\nname CHAR(100)," +
                 "\nunits INTEGER,\ntype CHAR(100),\ninstructor CHAR(100)," +
-                "\ncapacity INTEGER,\nPRIMARY KEY(code, classCode));");
+                "\ncapacity INTEGER,\nclassStart CHAR(100),\nclassEnd CHAR(100),\nexamStart CHAR(100),\nexamEnd CHAR(100)," +
+                "\nPRIMARY KEY(code, classCode));");
+        stmt.addBatch("CREATE TABLE IF NOT EXISTS CourseDays(code CHAR(100),\nclassCode CHAR(100),\nday CHAR(100),\nPRIMARY KEY(code, classCode, day));");
         stmt.addBatch("CREATE TABLE IF NOT EXISTS Prerequisites(code CHAR(100),\nclassCode CHAR(100)," +
                 "\npcode CHAR(100),\npclassCode CHAR(100),\nPRIMARY KEY(code, classCode, pcode, pclassCode)" +
                 ",FOREIGN KEY (code, classCode) REFERENCES Courses(code, classCode)" +
@@ -70,8 +72,9 @@ public class BolbolestanRepository {
         }
 
         Connection con = ConnectionPool.getConnection();
-        PreparedStatement stmt1 = con.prepareStatement("INSERT INTO Courses VALUES (?, ?, ?, ?, ?, ?, ?) on duplicate key update code = code");
+        PreparedStatement stmt1 = con.prepareStatement("INSERT INTO Courses VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) on duplicate key update code = code");
         PreparedStatement stmt2 = con.prepareStatement("INSERT INTO Prerequisites VALUES (?, ?, ?, ?) on duplicate key update code = code");
+        PreparedStatement stmt3 = con.prepareStatement("INSERT INTO CourseDays VALUES (?, ?, ?) on duplicate key update code = code");
         List.of(coursesList).forEach(course -> {
             try {
                 stmt1.setString(1, course.getCode());
@@ -81,6 +84,10 @@ public class BolbolestanRepository {
                 stmt1.setString(5, course.getType());
                 stmt1.setString(6, course.getInstructor());
                 stmt1.setInt(7, course.getCapacity());
+                stmt1.setString(8, course.getClassTime().getStart().toString());
+                stmt1.setString(9, course.getClassTime().getEnd().toString());
+                stmt1.setString(10, course.getExamTime().getStart().toString());
+                stmt1.setString(11, course.getExamTime().getEnd().toString());
                 stmt1.addBatch();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -96,11 +103,23 @@ public class BolbolestanRepository {
                     throwables.printStackTrace();
                 }
             });
+            List.of(course.getClassTime().getDays()).forEach(day -> {
+                try {
+                    stmt3.setString(1, course.getCode());
+                    stmt3.setString(2, course.getClassCode());
+                    stmt3.setString(3, day);
+                    stmt3.addBatch();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            });
         });
         int[] result1 = stmt1.executeBatch();
         stmt1.close();
         int[] result2 = stmt2.executeBatch();
         stmt2.close();
+        int[] result3 = stmt3.executeBatch();
+        stmt3.close();
         con.close();
     }
 
