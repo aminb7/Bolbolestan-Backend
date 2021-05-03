@@ -1,5 +1,6 @@
 package com.IE_CA.CA5.model;
 
+import com.IE_CA.CA5.repository.BolbolestanRepository;
 import com.IE_CA.CA5.utilities.JsonParser;
 import com.IE_CA.CA5.utilities.RawDataCollector;
 
@@ -10,6 +11,7 @@ import java.util.Map;
 
 public class BolbolestanApplication {
     private static BolbolestanApplication single_instance = null;
+    private BolbolestanRepository repository = BolbolestanRepository.getInstance();
 
     private Map<String, Map<String, Course>> courses;
     private Map<String, Student> students;
