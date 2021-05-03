@@ -56,6 +56,7 @@ public class BolbolestanApplication {
             studentsList = JsonParser.createObject(RawDataCollector.requestStudents(host), Student[].class);
         }
         catch (Exception e){
+            e.printStackTrace();
         }
         List<String> studentIds = new ArrayList<>();
         List.of(studentsList).forEach(student -> studentIds.add(student.getId()));

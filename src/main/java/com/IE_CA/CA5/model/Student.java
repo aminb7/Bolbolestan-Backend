@@ -9,6 +9,8 @@ public class Student {
 	private final String id;
 	private final String name;
 	private final String secondName;
+	private final String email;
+	private final String password;
 	private final String birthDate;
 	private final String field;
 	private final String faculty;
@@ -21,13 +23,16 @@ public class Student {
 
 	@JsonCreator
 	public Student(@JsonProperty("id") String id, @JsonProperty("name") String name,
-	               @JsonProperty("secondName") String secondName, @JsonProperty("birthDate") String birthDate,
+	               @JsonProperty("secondName") String secondName, @JsonProperty("email") String email,
+	               @JsonProperty("password") String password, @JsonProperty("birthDate") String birthDate,
 	               @JsonProperty("field") String field, @JsonProperty("faculty") String faculty,
 	               @JsonProperty("level") String level, @JsonProperty("status") String status,
 	               @JsonProperty("img") String img) {
 		this.id = id;
 		this.name = name;
 		this.secondName = secondName;
+		this.email = email;
+		this.password = password;
 		this.birthDate = birthDate;
 		this.field = field;
 		this.faculty = faculty;
@@ -48,6 +53,14 @@ public class Student {
 
 	public String getSecondName() {
 		return secondName;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public String getPassword() {
+		return password;
 	}
 
 	public String getBirthDate() {
