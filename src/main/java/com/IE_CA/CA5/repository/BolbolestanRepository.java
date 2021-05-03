@@ -1,7 +1,13 @@
 package com.IE_CA.CA5.repository;
 
+import com.IE_CA.CA5.model.Course;
+import com.IE_CA.CA5.utilities.JsonParser;
+import com.IE_CA.CA5.utilities.RawDataCollector;
+
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class BolbolestanRepository {
     private static BolbolestanRepository instance;
@@ -43,5 +49,50 @@ public class BolbolestanRepository {
         int[] updateCounts = stmt.executeBatch();
         stmt.close();
         con.close();
+        fillTables();
+    }
+
+    private void fillTables() throws SQLException {
+        fillCourses();
+        fillStudents();
+        fillGradedCourses();
+    }
+
+    private void fillCourses() throws SQLException {
+        String host = "http://138.197.181.131:5100";
+        Course[] coursesList = null;
+        try {
+            coursesList = JsonParser.createObject(RawDataCollector.requestCourses(host), Course[].class);
+        }
+        catch (Exception e) {
+        }
+
+        Connection con = ConnectionPool.getConnection();
+        PreparedStatement stmt = con.prepareStatement("INSERT INTO Courses VALUES (?, ?, ?, ?, ?, ?, ?) on duplicate key update code = code");
+        List.of(coursesList).forEach(course -> {
+            try {
+                stmt.setString(1, course.getCode());
+                stmt.setString(2, course.getClassCode());
+                stmt.setString(3, course.getName());
+                stmt.setInt(4, course.getUnits());
+                stmt.setString(5, course.getType());
+                stmt.setString(6, course.getInstructor());
+                stmt.setInt(7, course.getCapacity());
+                stmt.addBatch();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
+        int[] updateCounts = stmt.executeBatch();
+        stmt.close();
+        con.close();
+    }
+
+    private void fillStudents() {
+
+    }
+
+    private void fillGradedCourses() {
+
     }
 }
