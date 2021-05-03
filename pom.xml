@@ -12,7 +12,7 @@
 	<artifactId>CA5</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>CA5</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Internet Engineering Project</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
