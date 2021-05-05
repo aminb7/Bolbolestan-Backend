@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
+
 @RestController
 public class ResetService {
 
     @RequestMapping(value = "/reset", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void reset() {
+    public void reset() throws SQLException {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         Student student = app.getLoggedInStudent();
         student.getSelectedCourses().entrySet().removeIf(entries->entries.getValue().getState() != CourseState.FINALIZED);

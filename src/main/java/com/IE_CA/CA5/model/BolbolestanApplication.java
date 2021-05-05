@@ -1,9 +1,15 @@
 package com.IE_CA.CA5.model;
 
 import com.IE_CA.CA5.repository.BolbolestanRepository;
+import com.IE_CA.CA5.repository.ConnectionPool;
 import com.IE_CA.CA5.utilities.JsonParser;
 import com.IE_CA.CA5.utilities.RawDataCollector;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -92,7 +98,27 @@ public class BolbolestanApplication {
     }
 
     public Student getLoggedInStudent() {
-        return students.get(loggedInStudentId);
+        Student student = null;
+        System.out.println("ohggghhhh"+loggedInStudentId);
+        try {
+            Connection con = ConnectionPool.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery("select * from students where id = \"" + loggedInStudentId + "\"");
+            if (!result.next())
+                return student;
+            student = new Student(result.getString("id"), result.getString("name"),
+                    result.getString("secondName"), result.getString("birthDate"),
+                    result.getString("field"), result.getString("faculty"),
+                    result.getString("level"), result.getString("status"),
+                    result.getString("img"));
+            result.close();
+            stmt.close();
+            con.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return student;
     }
 
     public Map<String, Map<String, Course>> getCourses() {

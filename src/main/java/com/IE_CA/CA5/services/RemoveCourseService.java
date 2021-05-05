@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
+
 @RestController
 public class RemoveCourseService {
 
     @RequestMapping(value = "/remove_course", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void removeCourse(@RequestParam String courseCode) {
+    public void removeCourse(@RequestParam String courseCode) throws SQLException {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         app.getLoggedInStudent().removeCourse(courseCode);
     }

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -21,7 +22,8 @@ public class AddCourseService {
             return false;
 
         Course course = courseGroup.get(classCode);
-        Student student = app.getLoggedInStudent();
+        Student student = null;
+        student = app.getLoggedInStudent();
         if (course == null || student == null)
             return false;
 

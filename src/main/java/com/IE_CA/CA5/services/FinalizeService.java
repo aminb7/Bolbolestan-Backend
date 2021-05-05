@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -16,7 +17,8 @@ public class FinalizeService {
     @RequestMapping(value = "/finalize_courses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean finalizeCourses() {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        Student student = app.getLoggedInStudent();
+        Student student = null;
+        student = app.getLoggedInStudent();
         if (student == null)
             return false;
 
