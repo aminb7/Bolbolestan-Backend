@@ -160,7 +160,7 @@ class FilteredCourses extends React.Component {
                         </thead>
                         <tbody className="gray_text">
                         {Object.values(this.props.courses).map((course, index) => (
-                        <tr onClick={(e) => this.handleRowInfo(e, index)}>
+                        <tr onMouseMove={(e) => this.handleRowInfo(e, index)}>
                             <td><input type="image" src={course.numberOfStudents >= course.capacity ? "../images/icons/010-clock-circular-outline.png" : "../images/icons/011-add.png"} className={course.numberOfStudents >= course.capacity ? "clock_logo" : "add_logo"} onClick={(e) => this.handleAdd(e, course.code, course.classCode)} alt="add"/></td>
                             <td>{course.classCode} - {course.code}</td>
                             <td>{course.numberOfStudents}/{course.capacity}</td>
@@ -169,7 +169,7 @@ class FilteredCourses extends React.Component {
                             <td>{course.instructor}</td>
                             <td className="bold_text">{course.units}</td>
                             {index == 0 ? <td className="last_bottom" rowSpan={Object.values(this.props.courses).length}>
-                                <div className="triangle-border right" style={{bottom: (1100 -75 * this.state.index).toString() + 'px'}}>
+                                <div className="triangle-border right" style={{bottom: (1100 -74 * this.state.index).toString() + 'px'}}>
                                     {Object.values(this.props.courses)[this.state.index].classTime.start} - {Object.values(this.props.courses)[this.state.index].classTime.end}
                                     <br/>
                                     {Object.values(this.props.courses)[this.state.index].classTime.days.join(' - ')}
