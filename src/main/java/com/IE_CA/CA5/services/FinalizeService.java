@@ -17,8 +17,7 @@ public class FinalizeService {
     @RequestMapping(value = "/finalize_courses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean finalizeCourses() {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        Student student = null;
-        student = app.getLoggedInStudent();
+        Student student = app.getLoggedInStudent();
         if (student == null)
             return false;
 

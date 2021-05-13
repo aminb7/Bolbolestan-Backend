@@ -1,8 +1,13 @@
 package com.IE_CA.CA5.model;
 
+import com.IE_CA.CA5.repository.ConnectionPool;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 public class Course {
@@ -64,7 +69,24 @@ public class Course {
 		return this.capacity;
 	}
 
-	public int getNumberOfStudents() {return this.numberOfStudents; }
+	public int getNumberOfStudents() {
+		int num = 0;
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet result = stmt.executeQuery("select count(*) as cnt from selectedcourses where code = " + this.code
+					+ " and courseState = \"FINALIZED\"");
+			if (result.next())
+				num = result.getInt("cnt");
+			result.close();
+			stmt.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return num;
+	}
 
 	public ClassTime getClassTime() {
 		return classTime;
@@ -76,14 +98,6 @@ public class Course {
 
 	public String[] getPrerequisites() {
 		return prerequisites;
-	}
-
-	public void incrementNumOfStudents() {
-		numberOfStudents += 1;
-	}
-
-	public void decrementNumOfStudents() {
-		numberOfStudents += 1;
 	}
 
 	public String getType() {
@@ -103,7 +117,6 @@ public class Course {
 			Student student = waitingList.get(0);
 			student.changeCourseSelectionType(code, CourseSelectionType.REGISTERED);
 			waitingList.remove(0);
-			incrementNumOfStudents();
 		}
 	}
 }

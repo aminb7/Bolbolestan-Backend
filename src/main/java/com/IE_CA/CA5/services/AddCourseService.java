@@ -17,25 +17,12 @@ public class AddCourseService {
     @RequestMapping(value = "/add_course", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
     public boolean addCourse(@RequestParam String courseCode, @RequestParam String classCode) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        Map<String, Course> courseGroup = app.getCourses().get(courseCode);
-        if (courseGroup == null)
-            return false;
-
-        Course course = courseGroup.get(classCode);
-        Student student = null;
-        student = app.getLoggedInStudent();
+        Course course = app.getCourse(courseCode, classCode);
+        Student student = app.getLoggedInStudent();
         if (course == null || student == null)
             return false;
 
-        boolean hasConflict = false;
-
-        for (SelectedCourse selectedCourse : new ArrayList<>(student.getSelectedCourses().values())) {
-            if (selectedCourse.getCourse().getClassTime().overlaps(course.getClassTime())
-                    || selectedCourse.getCourse().getExamTime().overlaps(course.getExamTime()))
-                hasConflict = true;
-        }
-
-        if (student.getSelectedCourses().containsKey(courseCode) || hasConflict)
+        if (student.hasCourse(courseCode) || student.hasConflicts(course))
             return false;
 
         if (course.getNumberOfStudents() >= course.getCapacity())

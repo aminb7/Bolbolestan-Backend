@@ -6,7 +6,7 @@ public enum CourseSelectionType {
 
     @Override
     public String toString() {
-        if (this == REGISTERED) return "registered";
-        else return "waiting_list";
+        if (this == REGISTERED) return "REGISTERED";
+        else return "WAITING_LIST";
     }
 }

@@ -17,14 +17,17 @@ class SelectedCourses extends React.Component {
 
     removeCourse(event, classCode) {
         this.props.removeCourse(event, classCode);
+        this.getState();
     }
 
     handleReset(event) {
         this.props.handleReset(event);
+        this.getState();
     }
 
     handleSubmit(event) {
         this.props.handleSubmit(event);
+        this.getState();
     }
 
     render() {
@@ -53,8 +56,8 @@ class SelectedCourses extends React.Component {
                                 {Object.values(this.props.student.selectedCourses).map((selectedCourse) => (
                                     <tr>
                                         <td><input type="image" src="../images/icons/012-trash-bin.png" className="trash_logo" onClick={(e) => this.removeCourse(e, selectedCourse.course.code)} alt="trash"/></td>
-                                        <td><span className={(selectedCourse.courseSelectionType == 'REGISTERED') ? (selectedCourse.props == 'FINALAIZED' ? "green_bordered_text" : "blue_bordered_text") : "gray_bordered_text"}>
-                                            {(selectedCourse.courseSelectionType == 'REGISTERED') ? (selectedCourse.props == 'FINALAIZED' ? "ثبت شده" : "ثبت نهایی نشده") : "در انتظار"}</span></td>
+                                        <td><span className={(selectedCourse.courseSelectionType == 'REGISTERED') ? (selectedCourse.state == 'FINALIZED' ? "green_bordered_text" : "blue_bordered_text") : "gray_bordered_text"}>
+                                            {(selectedCourse.courseSelectionType == 'REGISTERED') ? (selectedCourse.state == 'FINALIZED' ? "ثبت شده" : "ثبت نهایی نشده") : "در انتظار"}</span></td>
                                         <td>{selectedCourse.course.classCode} - {selectedCourse.course.code}</td>
                                         <td>{selectedCourse.course.name}</td>
                                         <td>{selectedCourse.course.instructor}</td>
@@ -158,7 +161,7 @@ class FilteredCourses extends React.Component {
                         <tbody className="gray_text">
                         {Object.values(this.props.courses).map((course, index) => (
                         <tr onClick={(e) => this.handleRowInfo(e, index)}>
-                            <td><input type="image" src={course.numberOfStudents == course.capacity ? "../images/icons/010-clock-circular-outline.png" : "../images/icons/011-add.png"} className={course.numberOfStudents == course.capacity ? "clock_logo" : "add_logo"} onClick={(e) => this.handleAdd(e, course.code, course.classCode)} alt="add"/></td>
+                            <td><input type="image" src={course.numberOfStudents >= course.capacity ? "../images/icons/010-clock-circular-outline.png" : "../images/icons/011-add.png"} className={course.numberOfStudents >= course.capacity ? "clock_logo" : "add_logo"} onClick={(e) => this.handleAdd(e, course.code, course.classCode)} alt="add"/></td>
                             <td>{course.classCode} - {course.code}</td>
                             <td>{course.numberOfStudents}/{course.capacity}</td>
                             <td><span className={course.type == 'Umumi' ? "yellow_blocked_text" : course.type == 'Takhasosi' ? "blue_blocked_text" : course.type == 'Asli' ? "green_blocked_text" : "red_blocked_text"}>{course.type}</span></td>
@@ -166,7 +169,7 @@ class FilteredCourses extends React.Component {
                             <td>{course.instructor}</td>
                             <td className="bold_text">{course.units}</td>
                             {index == 0 ? <td className="last_bottom" rowSpan={Object.values(this.props.courses).length}>
-                                <div className="triangle-border right" style={{bottom: (1150 -77 * this.state.index).toString() + 'px'}}>
+                                <div className="triangle-border right" style={{bottom: (1100 -75 * this.state.index).toString() + 'px'}}>
                                     {Object.values(this.props.courses)[this.state.index].classTime.start} - {Object.values(this.props.courses)[this.state.index].classTime.end}
                                     <br/>
                                     {Object.values(this.props.courses)[this.state.index].classTime.days.join(' - ')}

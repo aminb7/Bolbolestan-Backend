@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,6 @@ public class BolbolestanApplication {
         this.loggedInStudentId = "";
         this.searchFilter = "";
         this.typeSearchFilter = "all";
-        fillInformation();
     }
 
     public static BolbolestanApplication getInstance()
@@ -72,7 +72,7 @@ public class BolbolestanApplication {
         try {
             Map<String, String> rawGrades = RawDataCollector.requestGrades(host, studentIds);
             for (Student student : studentsList) {
-                student.setGradedCourses(JsonParser.createObject(rawGrades.get(student.getId()), GradedCourse[].class));
+                student.setGradedCourses();
 
                 for (Map.Entry<String, GradedCourse> entry : student.getGradedCourses().entrySet()) {
                     entry.getValue().setCourse(this.courses.get(entry.getKey()).entrySet().iterator().next().getValue());
@@ -86,7 +86,20 @@ public class BolbolestanApplication {
     }
 
     public boolean studentExists(String id) {
-        return students.containsKey(id);
+        try {
+            Connection con = ConnectionPool.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery("select * from students where id = " + id);
+            if (result.next())
+                return true;
+            result.close();
+            stmt.close();
+            con.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     public String getLoggedInStudentId() {
@@ -99,21 +112,25 @@ public class BolbolestanApplication {
 
     public Student getLoggedInStudent() {
         Student student = null;
-        System.out.println("ohggghhhh"+loggedInStudentId);
         try {
             Connection con = ConnectionPool.getConnection();
             Statement stmt = con.createStatement();
             ResultSet result = stmt.executeQuery("select * from students where id = \"" + loggedInStudentId + "\"");
-            if (!result.next())
-                return student;
-            student = new Student(result.getString("id"), result.getString("name"),
-                    result.getString("secondName"), result.getString("birthDate"),
-                    result.getString("field"), result.getString("faculty"),
-                    result.getString("level"), result.getString("status"),
-                    result.getString("img"));
+            if (result.next())
+                student = new Student(result.getString("id"), result.getString("name"),
+                        result.getString("secondName"), result.getString("birthDate"),
+                        result.getString("field"), result.getString("faculty"),
+                        result.getString("level"), result.getString("status"),
+                        result.getString("img"));
+
             result.close();
             stmt.close();
             con.close();
+
+            if (student != null) {
+                student.setGradedCourses();
+                student.setSelectedCourses();
+            }
         }
         catch (SQLException e) {
             e.printStackTrace();
@@ -121,8 +138,49 @@ public class BolbolestanApplication {
         return student;
     }
 
-    public Map<String, Map<String, Course>> getCourses() {
-        return courses;
+    public Course getCourse(String code, String classCode) {
+        try {
+            Connection con = ConnectionPool.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet courseResult = stmt.executeQuery("select * from courses where code = " + code + " and classCode = " + classCode);
+
+            if (courseResult.next()) {
+                Statement stmt2 = con.createStatement();
+                ResultSet prerequisitesResult = stmt2.executeQuery("select * from prerequisites where code = \"" + code + "\"");
+
+                List<String> prerequisites = new ArrayList<String>();
+                while (prerequisitesResult.next()) {
+                    prerequisites.add(prerequisitesResult.getString("pcode"));
+                }
+                prerequisitesResult.close();
+                stmt2.close();
+
+                Statement stmt3 = con.createStatement();
+                ResultSet classDaysResult = stmt3.executeQuery("select * from coursedays where code = \"" + code + "\"");
+                List<String> days = new ArrayList<String>();
+                while (classDaysResult.next()) {
+                    days.add(classDaysResult.getString("day"));
+                }
+                classDaysResult.close();
+                stmt3.close();
+
+                ClassTime classTime = new ClassTime(days.toArray(new String[days.size()]), courseResult.getString("classStart") + "-" + courseResult.getString("classEnd"));
+                ExamTime examTime = new ExamTime(LocalDateTime.parse(courseResult.getString("examStart")), LocalDateTime.parse(courseResult.getString("examEnd")));
+                Course course = new Course(courseResult.getString("code"),
+                        courseResult.getString("classCode"), courseResult.getString("name"),
+                        courseResult.getInt("units"), courseResult.getString("type"),
+                        courseResult.getString("instructor"), courseResult.getInt("capacity"),
+                        prerequisites.toArray(new String[prerequisites.size()]), classTime, examTime);
+                courseResult.close();
+                stmt2.close();
+                con.close();
+                return course;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public void setSearchFilter(String searchFilter) {
@@ -135,14 +193,33 @@ public class BolbolestanApplication {
 
     public List<Course> getFilteredCourses() {
         List<Course> courses = new ArrayList<>();
+        try {
+            Connection con = ConnectionPool.getConnection();
+            Statement stmt = con.createStatement();
+            ResultSet result = stmt.executeQuery("select * from courses where name like \"%" + searchFilter + "%\""
+                    + " and (\"" + typeSearchFilter + "\" = \"all\" or \"" + typeSearchFilter + "\" = type)");
 
-        for (Map.Entry<String, Map<String, Course>> entry : this.courses.entrySet()) {
-            for (Map.Entry<String, Course> course : entry.getValue().entrySet()) {
-                if (course.getValue().getName().contains(searchFilter))
-                    if (typeSearchFilter.equals("all") || typeSearchFilter.equals(course.getValue().getType()))
-                        courses.add(course.getValue());
+            while (result.next()) {
+                courses.add(this.getCourse(result.getString("code"), result.getString("classCode")));
             }
+
+            result.close();
+            stmt.close();
+            con.close();
         }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+//        for (Map.Entry<String, Map<String, Course>> entry : this.courses.entrySet()) {
+//            for (Map.Entry<String, Course> course : entry.getValue().entrySet()) {
+//                if (course.getValue().getName().contains(searchFilter))
+//                    if (typeSearchFilter.equals("all") || typeSearchFilter.equals(course.getValue().getType()))
+//                        courses.add(course.getValue());
+//            }
+//        }
 
         return courses;
     }

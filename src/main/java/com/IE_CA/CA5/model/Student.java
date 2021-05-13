@@ -1,8 +1,11 @@
 package com.IE_CA.CA5.model;
 
+import com.IE_CA.CA5.repository.ConnectionPool;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.*;
 
 public class Student {
@@ -75,7 +78,21 @@ public class Student {
 	}
 
 	public void addCourse(Course course, CourseState state, CourseSelectionType courseSelectionType) {
-		selectedCourses.put(course.getCode(), new SelectedCourse(course, state, courseSelectionType));
+		try {
+			Connection con = ConnectionPool.getConnection();
+			PreparedStatement stmt = con.prepareStatement("INSERT INTO SelectedCourses VALUES (?, ?, ?, ?, ?)");
+			stmt.setString(1, id);
+			stmt.setString(2, course.getCode());
+			stmt.setString(3, course.getClassCode());
+			stmt.setString(4, state.toString());
+			stmt.setString(5, courseSelectionType.toString());
+			stmt.addBatch();
+			stmt.executeBatch();
+			stmt.close();
+			con.close();
+		} catch (SQLException throwables) {
+			throwables.printStackTrace();
+		}
 	}
 
 	public void changeCourseSelectionType(String code, CourseSelectionType type) {
@@ -84,14 +101,17 @@ public class Student {
 			selectedCourse.setCourseSelectionType(type);
 	}
 
-	public SelectedCourse removeCourse(String code) {
-		SelectedCourse selectedCourse = selectedCourses.get(code);
-
-		if (selectedCourse.getState() == CourseState.FINALIZED &&
-				selectedCourse.getCourseSelectionType() == CourseSelectionType.REGISTERED)
-			selectedCourse.getCourse().decrementNumOfStudents();
-
-		return selectedCourses.remove(code);
+	public void removeCourse(String code) {
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("delete from selectedcourses where id = \"" + id + "\" and code = \"" + code + "\"");
+			stmt.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public Map<String, SelectedCourse> getSelectedCourses() {
@@ -113,24 +133,37 @@ public class Student {
 		return gradedCourses;
 	}
 
-	public void setGradedCourses(GradedCourse[] gradedCourses) {
-		List.of(gradedCourses).forEach(gradedCourse -> this.gradedCourses.put(gradedCourse.getCode(), gradedCourse));
+	public void setGradedCourses() {
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet result = stmt.executeQuery("select * from gradedcourses where id = \"" + id + "\"");
+
+			while (result.next()) {
+				GradedCourse gradedCourse = new GradedCourse(result.getString("code"),
+						result.getInt("grade"), result.getInt("term"));
+
+				gradedCourse.setCourse(BolbolestanApplication.getInstance().getCourse(result.getString("code"), result.getString("classCode")));
+				this.gradedCourses.put(gradedCourse.getCode(), gradedCourse);
+			}
+			result.close();
+			stmt.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void finalizeCourses() {
-		for (Map.Entry<String, SelectedCourse> entry : selectedCourses.entrySet()){
-			if (entry.getValue().getState() == CourseState.NON_FINALIZED) {
-				boolean hasCapacity = entry.getValue().getCourse().getCapacity() <=
-						entry.getValue().getCourse().getNumberOfStudents();
-				if (!hasCapacity) {
-					entry.getValue().getCourse().addToWaitingList(this);
-					entry.getValue().setState(CourseState.FINALIZED);
-				}
-				else {
-					entry.getValue().getCourse().incrementNumOfStudents();
-					entry.getValue().setState(CourseState.FINALIZED);
-				}
-			}
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("update selectedcourses set courseState = \"FINALIZED\" where id = \""
+					+ id + "\"  and courseState = \"NON_FINALIZED\"");
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -156,5 +189,112 @@ public class Student {
 		}
 
 		return result / unitsSum;
+	}
+
+	public void setSelectedCourses() {
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet result = stmt.executeQuery("select * from selectedcourses where id = \"" + id + "\"");
+
+			while (result.next()) {
+				Statement stmt2 = con.createStatement();
+				ResultSet courseResult = stmt2.executeQuery("select * from courses where code = \"" + result.getString("code") + "\"");
+
+				if (courseResult.next()) {
+					Statement stmt3 = con.createStatement();
+					ResultSet prerequisitesResult = stmt3.executeQuery("select * from prerequisites where code = \"" + result.getString("code") + "\"");
+
+					List<String> prerequisites = new ArrayList<String>();
+					while (prerequisitesResult.next()) {
+						prerequisites.add(prerequisitesResult.getString("pcode"));
+					}
+					prerequisitesResult.close();
+					stmt3.close();
+
+					Statement stmt4 = con.createStatement();
+					ResultSet classDaysResult = stmt4.executeQuery("select * from coursedays where code = \"" + result.getString("code") + "\"");
+					List<String> days = new ArrayList<String>();
+					while (classDaysResult.next()) {
+						days.add(classDaysResult.getString("day"));
+					}
+					classDaysResult.close();
+					stmt4.close();
+
+					ClassTime classTime = new ClassTime(days.toArray(new String[days.size()]), courseResult.getString("classStart") + "-" + courseResult.getString("classEnd"));
+					ExamTime examTime = new ExamTime(LocalDateTime.parse(courseResult.getString("examStart")), LocalDateTime.parse(courseResult.getString("examEnd")));
+					Course course = new Course(courseResult.getString("code"),
+							courseResult.getString("classCode"), courseResult.getString("name"),
+							courseResult.getInt("units"), courseResult.getString("type"),
+							courseResult.getString("instructor"), courseResult.getInt("capacity"),
+							prerequisites.toArray(new String[prerequisites.size()]), classTime, examTime);
+					SelectedCourse selectedCourse = new SelectedCourse(course, CourseState.valueOf(result.getString("courseState")),
+							CourseSelectionType.valueOf(result.getString("courseSelectionType")));
+					courseResult.close();
+					stmt2.close();
+					selectedCourses.put(course.getCode(), new SelectedCourse(course, selectedCourse.getState(), selectedCourse.getCourseSelectionType()));
+				}
+			}
+			result.close();
+			stmt.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void reset() {
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			stmt.executeUpdate("delete from selectedcourses where coursestate = \"NON_FINALIZED\"");
+			stmt.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public boolean hasConflicts(Course course) {
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet result = stmt.executeQuery("select * from selectedcourses where id = \"" + id + "\"");
+
+			while (result.next()) {
+				Course this_course = BolbolestanApplication.getInstance().getCourse(result.getString("code"),
+						result.getString("classCode"));
+
+				if (this_course.getClassTime().overlaps(course.getClassTime())
+						|| this_course.getExamTime().overlaps(course.getExamTime()))
+					return true;
+			}
+			result.close();
+			stmt.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+
+	public boolean hasCourse(String courseCode) {
+		boolean has = false;
+		try {
+			Connection con = ConnectionPool.getConnection();
+			Statement stmt = con.createStatement();
+			ResultSet result = stmt.executeQuery("select * from selectedcourses where id = \"" + id + "\" and code = \"" + courseCode + "\"");
+			if (result.next()) has = true;
+			result.close();
+			stmt.close();
+			con.close();
+		}
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return has;
 	}
 }

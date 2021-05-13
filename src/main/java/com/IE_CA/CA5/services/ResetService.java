@@ -17,6 +17,6 @@ public class ResetService {
     public void reset() throws SQLException {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         Student student = app.getLoggedInStudent();
-        student.getSelectedCourses().entrySet().removeIf(entries->entries.getValue().getState() != CourseState.FINALIZED);
+        student.reset();
     }
 }

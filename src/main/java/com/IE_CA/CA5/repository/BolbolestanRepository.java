@@ -44,7 +44,7 @@ public class BolbolestanRepository {
                 "\nbirthDate CHAR(100),\nfield CHAR(100)," +
                 "\nfaculty CHAR(100),\nlevel CHAR(100),\nstatus CHAR(100),\nimg CHAR(100),\nPRIMARY KEY(id));");
         stmt.addBatch("CREATE TABLE IF NOT EXISTS SelectedCourses(id CHAR(100),\ncode CHAR(100),\nclassCode CHAR(100)," +
-                "\nPRIMARY KEY(id, code, classCode)," +
+                "\ncourseState CHAR(100), \ncourseSelectionType CHAR(100), \nPRIMARY KEY(id, code, classCode)," +
                 "FOREIGN KEY (id) REFERENCES Students(id)," +
                 "FOREIGN KEY (code, classCode) REFERENCES Courses(code, classCode))");
         stmt.addBatch("CREATE TABLE IF NOT EXISTS GradedCourses(id CHAR(100),\ncode CHAR(100),\nclassCode CHAR(100)," +
