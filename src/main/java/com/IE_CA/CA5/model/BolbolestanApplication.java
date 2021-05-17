@@ -211,16 +211,6 @@ public class BolbolestanApplication {
             e.printStackTrace();
         }
 
-
-
-//        for (Map.Entry<String, Map<String, Course>> entry : this.courses.entrySet()) {
-//            for (Map.Entry<String, Course> course : entry.getValue().entrySet()) {
-//                if (course.getValue().getName().contains(searchFilter))
-//                    if (typeSearchFilter.equals("all") || typeSearchFilter.equals(course.getValue().getType()))
-//                        courses.add(course.getValue());
-//            }
-//        }
-
         return courses;
     }
 
