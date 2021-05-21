@@ -4,19 +4,25 @@ import com.IE_CA.CA5.repository.BolbolestanRepository;
 import com.IE_CA.CA5.repository.ConnectionPool;
 import com.IE_CA.CA5.utilities.JsonParser;
 import com.IE_CA.CA5.utilities.RawDataCollector;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.security.Key;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
+import io.jsonwebtoken.*;
+
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
+
+import static org.apache.commons.lang3.time.DateUtils.addDays;
+import static org.apache.commons.lang3.time.DateUtils.addHours;
 
 public class BolbolestanApplication {
+    private static String SECRET_KEY = "bolbolestan";
     private static BolbolestanApplication single_instance = null;
     private BolbolestanRepository repository = BolbolestanRepository.getInstance();
 
@@ -85,11 +91,12 @@ public class BolbolestanApplication {
         }
     }
 
-    public boolean studentExists(String id) {
+    public boolean studentExists(String email, String password) {
         try {
             Connection con = ConnectionPool.getConnection();
             Statement stmt = con.createStatement();
-            ResultSet result = stmt.executeQuery("select * from students where id = " + id);
+            String passwordHash = password;
+            ResultSet result = stmt.executeQuery("select * from students where email = \"" + email + " \" and password = \"" + passwordHash + " \"");
             if (result.next())
                 return true;
             result.close();
@@ -220,5 +227,23 @@ public class BolbolestanApplication {
                 course.getValue().updateWaitingList();
             }
         }
+    }
+
+    public String createJWT(String email) {
+        SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+        long nowMillis = System.currentTimeMillis();
+        Date now = new Date(nowMillis);
+
+        byte[] apiKeySecretBytes = DatatypeConverter.parseBase64Binary(SECRET_KEY);
+        Key signingKey = new SecretKeySpec(apiKeySecretBytes, signatureAlgorithm.getJcaName());
+
+        JwtBuilder builder = Jwts.builder()
+                .setId(email)
+                .setIssuedAt(now)
+                .setIssuer("mrazimi99@gmail.com")
+                .signWith(signatureAlgorithm, signingKey)
+                .setExpiration(addDays(now, 1));
+
+        return builder.compact();
     }
 }
