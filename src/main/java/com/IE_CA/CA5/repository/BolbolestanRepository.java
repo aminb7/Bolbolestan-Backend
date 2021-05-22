@@ -71,6 +71,7 @@ public class BolbolestanRepository {
             coursesList = JsonParser.createObject(RawDataCollector.requestCourses(host), Course[].class);
         }
         catch (Exception e) {
+            System.out.println("catch1");
         }
 
         Connection con = ConnectionPool.getConnection();
@@ -179,6 +180,26 @@ public class BolbolestanRepository {
         }
         int[] result2 = stmt2.executeBatch();
         stmt2.close();
+        con.close();
+    }
+
+    public void addStudent(Student student) throws SQLException {
+        Connection con = ConnectionPool.getConnection();
+        PreparedStatement stmt = con.prepareStatement("INSERT INTO Students VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) on duplicate key update id = id;");
+        stmt.setString(1, student.getId());
+        stmt.setString(2, student.getName());
+        stmt.setString(3, student.getSecondName());
+        stmt.setString(4, student.getEmail());
+        stmt.setString(5, hashPassword(student.getPassword()));
+        stmt.setString(6, student.getBirthDate());
+        stmt.setString(7, student.getField());
+        stmt.setString(8, student.getFaculty());
+        stmt.setString(9, student.getLevel());
+        stmt.setString(10, student.getStatus());
+        stmt.setString(11, student.getImg());
+        stmt.addBatch();
+        int[] result2 = stmt.executeBatch();
+        stmt.close();
         con.close();
     }
 

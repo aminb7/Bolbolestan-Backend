@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SearchService {
 
-        @RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/search", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     public void setSearchFilter(@RequestParam(value = "filter") String filter) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         app.setSearchFilter(filter);

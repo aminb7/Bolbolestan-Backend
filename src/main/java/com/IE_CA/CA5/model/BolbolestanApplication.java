@@ -6,12 +6,10 @@ import com.IE_CA.CA5.utilities.JsonParser;
 import com.IE_CA.CA5.utilities.RawDataCollector;
 
 import java.security.Key;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.Date;
 
 import io.jsonwebtoken.*;
 
@@ -96,7 +94,7 @@ public class BolbolestanApplication {
             Connection con = ConnectionPool.getConnection();
             Statement stmt = con.createStatement();
             String passwordHash = password;
-            ResultSet result = stmt.executeQuery("select * from students where email = \"" + email + " \" and password = \"" + passwordHash + " \"");
+            ResultSet result = stmt.executeQuery("select * from Students where email = \"" + email + " \" and password = \"" + passwordHash + " \"");
             if (result.next())
                 return true;
             result.close();
@@ -203,7 +201,7 @@ public class BolbolestanApplication {
         try {
             Connection con = ConnectionPool.getConnection();
             Statement stmt = con.createStatement();
-            ResultSet result = stmt.executeQuery("select * from courses where name like \"%" + searchFilter + "%\""
+            ResultSet result = stmt.executeQuery("select * from Courses where name like \"%" + searchFilter + "%\""
                     + " and (\"" + typeSearchFilter + "\" = \"all\" or \"" + typeSearchFilter + "\" = type)");
 
             while (result.next()) {
@@ -245,5 +243,29 @@ public class BolbolestanApplication {
                 .setExpiration(addDays(now, 1));
 
         return builder.compact();
+    }
+
+    public boolean isDuplicateStudent(String id, String email) {
+        try {
+            Connection con = ConnectionPool.getConnection();
+            PreparedStatement stmt = con.prepareStatement("select * from Students where id = ? or email = ?");
+            stmt.setString(1, id);
+            stmt.setString(2, email);
+            ResultSet result = stmt.executeQuery();
+            if (result.next())
+                return true;
+            result.close();
+            stmt.close();
+            con.close();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public void signupStudent(Student student) throws SQLException {
+        repository.addStudent(student);
     }
 }
