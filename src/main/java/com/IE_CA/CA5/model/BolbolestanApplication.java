@@ -125,8 +125,8 @@ public class BolbolestanApplication {
             ResultSet result = stmt.executeQuery("select * from students where id = \"" + loggedInStudentId + "\"");
             if (result.next())
                 student = new Student(result.getString("id"), result.getString("name"),
-                        result.getString("secondName"), result.getString("birthDate"),
-                        result.getString("field"), result.getString("faculty"),
+                        result.getString("secondName"), result.getString("email"), result.getString("password"),
+                        result.getString("birthDate"), result.getString("field"), result.getString("faculty"),
                         result.getString("level"), result.getString("status"),
                         result.getString("img"));
 

@@ -6,6 +6,8 @@ import com.IE_CA.CA5.model.Student;
 import com.IE_CA.CA5.utilities.JsonParser;
 import com.IE_CA.CA5.utilities.RawDataCollector;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,7 +43,7 @@ public class BolbolestanRepository {
                 ",FOREIGN KEY (code, classCode) REFERENCES Courses(code, classCode)" +
                 ",FOREIGN KEY (pcode, pclassCode) REFERENCES Courses(code, classCode));");
         stmt.addBatch("CREATE TABLE IF NOT EXISTS Students(id CHAR(100),\nname CHAR(100),\nsecondName CHAR(100)," +
-                "\nbirthDate CHAR(100),\nfield CHAR(100)," +
+                "\nemail CHAR(100),\npassword CHAR(100),\nbirthDate CHAR(100),\nfield CHAR(100)," +
                 "\nfaculty CHAR(100),\nlevel CHAR(100),\nstatus CHAR(100),\nimg CHAR(100),\nPRIMARY KEY(id));");
         stmt.addBatch("CREATE TABLE IF NOT EXISTS SelectedCourses(id CHAR(100),\ncode CHAR(100),\nclassCode CHAR(100)," +
                 "\ncourseState CHAR(100), \ncourseSelectionType CHAR(100), \nPRIMARY KEY(id, code, classCode)," +
@@ -63,7 +65,7 @@ public class BolbolestanRepository {
     }
 
     private void fillCourses() throws SQLException {
-        String host = "http://138.197.181.131:5100";
+        String host = "http://138.197.181.131:5200";
         Course[] coursesList = null;
         try {
             coursesList = JsonParser.createObject(RawDataCollector.requestCourses(host), Course[].class);
@@ -124,7 +126,7 @@ public class BolbolestanRepository {
     }
 
     private void fillStudentsAndGradedCourses() throws SQLException {
-        String host = "http://138.197.181.131:5100";
+        String host = "http://138.197.181.131:5200";
         Student[] studentsList = null;
         try {
             studentsList = JsonParser.createObject(RawDataCollector.requestStudents(host), Student[].class);
@@ -135,19 +137,21 @@ public class BolbolestanRepository {
         List<String> studentIds = new ArrayList<>();
 
         Connection con = ConnectionPool.getConnection();
-        PreparedStatement stmt1 = con.prepareStatement("INSERT INTO Students VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?) on duplicate key update id = id;");
+        PreparedStatement stmt1 = con.prepareStatement("INSERT INTO Students VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) on duplicate key update id = id;");
         List.of(studentsList).forEach(student -> {
             studentIds.add(student.getId());
             try {
                 stmt1.setString(1, student.getId());
                 stmt1.setString(2, student.getName());
                 stmt1.setString(3, student.getSecondName());
-                stmt1.setString(4, student.getBirthDate());
-                stmt1.setString(5, student.getField());
-                stmt1.setString(6, student.getFaculty());
-                stmt1.setString(7, student.getLevel());
-                stmt1.setString(8, student.getStatus());
-                stmt1.setString(9, student.getImg());
+                stmt1.setString(4, student.getEmail());
+                stmt1.setString(5, hashPassword(student.getPassword()));
+                stmt1.setString(6, student.getBirthDate());
+                stmt1.setString(7, student.getField());
+                stmt1.setString(8, student.getFaculty());
+                stmt1.setString(9, student.getLevel());
+                stmt1.setString(10, student.getStatus());
+                stmt1.setString(11, student.getImg());
                 stmt1.addBatch();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
@@ -176,5 +180,26 @@ public class BolbolestanRepository {
         int[] result2 = stmt2.executeBatch();
         stmt2.close();
         con.close();
+    }
+
+    public static String hashPassword(String inputPassword)
+    {
+        String generatedPassword = null;
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(inputPassword.getBytes());
+            byte[] bytes = md.digest();
+            StringBuilder sb = new StringBuilder();
+            for(int i=0; i< bytes.length ;i++)
+            {
+                sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            }
+            generatedPassword = sb.toString();
+        }
+        catch (NoSuchAlgorithmException e)
+        {
+            e.printStackTrace();
+        }
+        return generatedPassword;
     }
 }
