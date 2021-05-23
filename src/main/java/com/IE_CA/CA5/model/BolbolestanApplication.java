@@ -248,6 +248,7 @@ public class BolbolestanApplication {
     }
 
     public boolean changePassword(String email, String password) {
+        System.out.println("hiiiiiiiii");
         if (studentExists(email)) {
             try {
                 Connection con = ConnectionPool.getConnection();

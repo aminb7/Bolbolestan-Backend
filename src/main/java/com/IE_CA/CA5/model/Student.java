@@ -203,6 +203,8 @@ public class Student {
 			unitsSum += units;
 		}
 
+		if (unitsSum == 0)
+			return 0;
 		return result / unitsSum;
 	}
 

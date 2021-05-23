@@ -9,9 +9,9 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 public class NewPasswordService {
 
-	@RequestMapping(value = "/new_pass", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public boolean loginStudent(@RequestAttribute String email, @RequestParam String password) {
+	@RequestMapping(value = "/forget/new_pass", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public boolean loginStudent(@RequestAttribute String id, @RequestParam String password) {
 		BolbolestanApplication app = BolbolestanApplication.getInstance();
-		return app.changePassword(email, password);
+		return app.changePassword(id, password);
 	}
 }

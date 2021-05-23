@@ -22,7 +22,7 @@ public class ForgetService {
 		try {
 			BolbolestanApplication.decodeJWT(token);
 		} catch (Exception e) {
-//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URI is not correct");
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URI is not correct");
 		}
 
 		return "/new_password/index.html";

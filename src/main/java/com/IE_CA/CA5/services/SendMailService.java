@@ -10,10 +10,10 @@ import org.springframework.web.server.ResponseStatusException;
 public class SendMailService {
 
 	@RequestMapping(value = "/send_mail", method = RequestMethod.GET)
-	public void loginStudent(@RequestAttribute String email, @RequestParam String password) {
+	public void loginStudent(@RequestParam String email) {
 		BolbolestanApplication app = BolbolestanApplication.getInstance();
 
 		if (BolbolestanApplication.getInstance().studentExists(email))
-			app.sendMail(email, BolbolestanApplication.getInstance().createForgetURL(email));
+			app.sendMail(email, "http://localhost:8080/forget/" + BolbolestanApplication.getInstance().createForgetURL(email));
 	}
 }
