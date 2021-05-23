@@ -17,7 +17,6 @@ public class SignupService {
     public Boolean signupStudent(@RequestParam String id, @RequestParam String name, @RequestParam String secondName,
                                  @RequestParam String email, @RequestParam String password, @RequestParam String birthDate,
                                  @RequestParam String field, @RequestParam String faculty, @RequestParam String level) throws SQLException {
-        System.out.println("Signup Service");
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         if (app.isDuplicateStudent(id, email))
             return false;

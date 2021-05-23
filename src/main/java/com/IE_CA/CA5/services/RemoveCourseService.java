@@ -1,13 +1,8 @@
 package com.IE_CA.CA5.services;
 
 import com.IE_CA.CA5.model.BolbolestanApplication;
-import com.IE_CA.CA5.model.CourseState;
-import com.IE_CA.CA5.model.Student;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
 
@@ -15,8 +10,8 @@ import java.sql.SQLException;
 public class RemoveCourseService {
 
     @RequestMapping(value = "/remove_course", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void removeCourse(@RequestParam String courseCode) throws SQLException {
+    public void removeCourse(@RequestParam String courseCode, @RequestAttribute("id") String email) throws SQLException {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        app.getLoggedInStudent().removeCourse(courseCode);
+        app.getStudent(email).removeCourse(courseCode);
     }
 }

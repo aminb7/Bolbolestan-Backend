@@ -1,5 +1,7 @@
 package com.IE_CA.CA5.utilities;
 
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -9,6 +11,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.annotation.WebFilter;
 
+@Component
 @WebFilter("/*")
 public class UTF8Filter implements Filter {
 

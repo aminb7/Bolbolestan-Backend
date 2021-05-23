@@ -13,7 +13,7 @@ public class LoginService {
     public String loginStudent(@RequestParam String email, @RequestParam String password) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         if (app.studentExists(email, password))
-            return app.createJWT(email);
+            return "{\"key\": \"" + app.createJWT(email) + "\"}";
         else
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "You are not authorized");
     }

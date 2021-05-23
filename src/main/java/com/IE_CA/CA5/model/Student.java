@@ -174,6 +174,8 @@ public class Student {
 			Statement stmt = con.createStatement();
 			stmt.executeUpdate("update selectedcourses set courseState = \"FINALIZED\" where id = \""
 					+ id + "\"  and courseState = \"NON_FINALIZED\"");
+			stmt.close();
+			con.close();
 		}
 		catch (SQLException e) {
 			e.printStackTrace();

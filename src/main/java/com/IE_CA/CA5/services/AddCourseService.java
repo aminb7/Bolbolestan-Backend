@@ -2,23 +2,16 @@ package com.IE_CA.CA5.services;
 
 import com.IE_CA.CA5.model.*;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Map;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AddCourseService {
 
     @RequestMapping(value = "/add_course", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean addCourse(@RequestParam String courseCode, @RequestParam String classCode) {
+    public boolean addCourse(@RequestParam String courseCode, @RequestParam String classCode, @RequestAttribute("id") String email) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
         Course course = app.getCourse(courseCode, classCode);
-        Student student = app.getLoggedInStudent();
+        Student student = app.getStudent(email);
         if (course == null || student == null)
             return false;
 

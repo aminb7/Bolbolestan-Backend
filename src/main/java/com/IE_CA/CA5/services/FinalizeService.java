@@ -2,22 +2,20 @@ package com.IE_CA.CA5.services;
 
 import com.IE_CA.CA5.model.*;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Map;
 
 @RestController
 public class FinalizeService {
 
     @RequestMapping(value = "/finalize_courses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public boolean finalizeCourses() {
+    public boolean finalizeCourses(@RequestAttribute("id") String email) {
         BolbolestanApplication app = BolbolestanApplication.getInstance();
-        Student student = app.getLoggedInStudent();
+        Student student = app.getStudent(email);
         if (student == null)
             return false;
 
