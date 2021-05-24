@@ -54,9 +54,12 @@ public class BolbolestanApplication {
     public boolean studentExists(String email, String password) {
         try {
             Connection con = ConnectionPool.getConnection();
-            Statement stmt = con.createStatement();
             String passwordHash = BolbolestanRepository.hashPassword(password);
-            ResultSet result = stmt.executeQuery("select * from Students where email = \"" + email + " \" and password = \"" + passwordHash + " \"");
+            PreparedStatement stmt = con.prepareStatement("select * from Students where email = ? and password = ?");
+            stmt.setString(1, email);
+            stmt.setString(2, passwordHash);
+            ResultSet result = stmt.executeQuery();
+
             if (result.next())
                 return true;
             result.close();
@@ -72,8 +75,9 @@ public class BolbolestanApplication {
     public boolean studentExists(String email) {
         try {
             Connection con = ConnectionPool.getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet result = stmt.executeQuery("select * from Students where email = \"" + email + " \"");
+            PreparedStatement stmt = con.prepareStatement("select * from Students where email = ?");
+            stmt.setString(1, email);
+            ResultSet result = stmt.executeQuery();
             if (result.next())
                 return true;
             result.close();
@@ -90,8 +94,9 @@ public class BolbolestanApplication {
         Student student = null;
         try {
             Connection con = ConnectionPool.getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet result = stmt.executeQuery("select * from students where email = \"" + email + "\"");
+            PreparedStatement stmt = con.prepareStatement("\"select * from students where email = ?\"");
+            stmt.setString(1, email);
+            ResultSet result = stmt.executeQuery();
             if (result.next())
                 student = new Student(result.getString("id"), result.getString("name"),
                         result.getString("secondName"), result.getString("email"), "",
@@ -117,12 +122,15 @@ public class BolbolestanApplication {
     public Course getCourse(String code, String classCode) {
         try {
             Connection con = ConnectionPool.getConnection();
-            Statement stmt = con.createStatement();
-            ResultSet courseResult = stmt.executeQuery("select * from courses where code = " + code + " and classCode = " + classCode);
+            PreparedStatement stmt = con.prepareStatement("select * from courses where code = ? and classCode = ?");
+            stmt.setString(1, code);
+            stmt.setString(2, classCode);
+            ResultSet courseResult = stmt.executeQuery();
 
             if (courseResult.next()) {
-                Statement stmt2 = con.createStatement();
-                ResultSet prerequisitesResult = stmt2.executeQuery("select * from prerequisites where code = \"" + code + "\"");
+                PreparedStatement stmt2 = con.prepareStatement("select * from prerequisites where code = ?");
+                stmt2.setString(1, code);
+                ResultSet prerequisitesResult = stmt2.executeQuery();
 
                 List<String> prerequisites = new ArrayList<String>();
                 while (prerequisitesResult.next()) {
@@ -131,8 +139,9 @@ public class BolbolestanApplication {
                 prerequisitesResult.close();
                 stmt2.close();
 
-                Statement stmt3 = con.createStatement();
-                ResultSet classDaysResult = stmt3.executeQuery("select * from coursedays where code = \"" + code + "\"");
+                PreparedStatement stmt3 = con.prepareStatement("select * from coursedays where code = ?");
+                stmt3.setString(1, code);
+                ResultSet classDaysResult = stmt3.executeQuery();
                 List<String> days = new ArrayList<String>();
                 while (classDaysResult.next()) {
                     days.add(classDaysResult.getString("day"));
@@ -252,9 +261,10 @@ public class BolbolestanApplication {
         if (studentExists(email)) {
             try {
                 Connection con = ConnectionPool.getConnection();
-                Statement stmt = con.createStatement();
-                stmt.executeUpdate("update students set password = \"" + BolbolestanRepository.hashPassword(password) + "\" where email = \""
-                        + email + "\"");
+                PreparedStatement stmt = con.prepareStatement("update students set password = ? where email = ?");
+                stmt.setString(1, BolbolestanRepository.hashPassword(password));
+                stmt.setString(2, email);
+                stmt.executeUpdate();
                 stmt.close();
                 con.close();
             }
