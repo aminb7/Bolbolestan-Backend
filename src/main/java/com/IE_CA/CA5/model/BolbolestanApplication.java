@@ -94,7 +94,7 @@ public class BolbolestanApplication {
         Student student = null;
         try {
             Connection con = ConnectionPool.getConnection();
-            PreparedStatement stmt = con.prepareStatement("\"select * from students where email = ?\"");
+            PreparedStatement stmt = con.prepareStatement("select * from students where email = (?)");
             stmt.setString(1, email);
             ResultSet result = stmt.executeQuery();
             if (result.next())
@@ -257,7 +257,6 @@ public class BolbolestanApplication {
     }
 
     public boolean changePassword(String email, String password) {
-        System.out.println("hiiiiiiiii");
         if (studentExists(email)) {
             try {
                 Connection con = ConnectionPool.getConnection();
