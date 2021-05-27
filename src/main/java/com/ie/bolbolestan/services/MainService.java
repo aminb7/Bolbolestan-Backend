@@ -9,6 +9,6 @@ public class MainService {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String getPage() {
-        return "index.html";
+        return "pages/index.html";
     }
 }
