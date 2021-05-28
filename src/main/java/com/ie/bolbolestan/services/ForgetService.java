@@ -22,6 +22,6 @@ public class ForgetService {
 			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "URI is not correct");
 		}
 
-		return "/new_password/index.html";
+		return "/pages/new_password/index.html";
 	}
 }
