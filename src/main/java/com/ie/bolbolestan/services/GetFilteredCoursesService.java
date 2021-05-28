@@ -13,7 +13,7 @@ import java.util.List;
 public class GetFilteredCoursesService {
 
     @RequestMapping(value = "filtered_courses", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Course> getLoggedInStudent() {
+    public List<Course> getFilteredCourses() {
         return BolbolestanApplication.getInstance().getFilteredCourses();
     }
 }
