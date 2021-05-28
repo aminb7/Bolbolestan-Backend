@@ -11,6 +11,6 @@ public class SendMailService {
 		BolbolestanApplication app = BolbolestanApplication.getInstance();
 
 		if (BolbolestanApplication.getInstance().studentExists(email))
-			app.sendMail(email, "http://localhost:8080/forget/" + BolbolestanApplication.getInstance().createForgetURL(email));
+			app.sendMail(email, "http://localhost:80?new_password=" + BolbolestanApplication.getInstance().createForgetURL(email));
 	}
 }
