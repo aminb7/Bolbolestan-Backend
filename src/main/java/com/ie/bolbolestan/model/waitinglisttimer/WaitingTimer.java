@@ -1,4 +1,4 @@
-package com.ie.bolbolestan.model.waitingListTimer;
+package com.ie.bolbolestan.model.waitinglisttimer;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -14,7 +14,7 @@ public class WaitingTimer implements ServletContextListener {
 	@Override
 	public void contextInitialized(ServletContextEvent event) {
 		scheduler = Executors.newSingleThreadScheduledExecutor();
-		scheduler.scheduleAtFixedRate(new WaitingListUpdateJob(), 0, 3, TimeUnit.SECONDS);
+		scheduler.scheduleAtFixedRate(new WaitingListUpdateJob(), 0, 20, TimeUnit.SECONDS);
 	}
 
 	@Override

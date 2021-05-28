@@ -27,15 +27,11 @@ public class BolbolestanApplication {
     private static BolbolestanApplication single_instance = null;
     private BolbolestanRepository repository = BolbolestanRepository.getInstance();
 
-    private Map<String, Map<String, Course>> courses;
-    private Map<String, Student> students;
     private String searchFilter;
     private String typeSearchFilter;
 
     private BolbolestanApplication()
     {
-        this.courses = new HashMap<>();
-        this.students = new HashMap<>();
         this.searchFilter = "";
         this.typeSearchFilter = "all";
     }
@@ -198,11 +194,10 @@ public class BolbolestanApplication {
     }
 
     public void updateWaitingLists() {
-        for (Map.Entry<String, Map<String, Course>> entry : this.courses.entrySet()) {
-            for (Map.Entry<String, Course> course : entry.getValue().entrySet()) {
-                course.getValue().updateWaitingList();
-            }
-        }
+        // ToDo
+//        for (Course course : getFilteredCourses()) {
+//            course.updateWaitingList();
+//        }
     }
 
     public String createJWT(String email) {
