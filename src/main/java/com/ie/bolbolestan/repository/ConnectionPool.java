@@ -9,15 +9,16 @@ import java.sql.Statement;
 
 public class ConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
+    private final static String dockerMysqlPath = "jdbc:mysql://docker-mysql:3306/";
     private final static String dbName = "BolbolestanDatabase";
-    private final static String dbURL = "jdbc:mysql://docker-mysql:3306/" + dbName;
+    private final static String dbURL = dockerMysqlPath + dbName;
     private final static String dbUserName = "root";
     private final static String dbPassword = "password";
 
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://docker-mysql:3306/?user=" + dbUserName + "&" + "password=" + dbPassword);
+            Connection conn = DriverManager.getConnection(dockerMysqlPath + "?user=" + dbUserName + "&" + "password=" + dbPassword);
             Statement stmt = conn.createStatement();
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
         } catch (ClassNotFoundException | SQLException e) {
