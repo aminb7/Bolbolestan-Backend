@@ -150,7 +150,7 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			ResultSet result = stmt.executeQuery("select * from gradedcourses where id = \"" + id + "\"");
+			ResultSet result = stmt.executeQuery("select * from GradedCourses where id = \"" + id + "\"");
 
 			while (result.next()) {
 				GradedCourse gradedCourse = new GradedCourse(result.getString("code"),
@@ -212,15 +212,15 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			ResultSet result = stmt.executeQuery("select * from selectedcourses where id = \"" + id + "\"");
+			ResultSet result = stmt.executeQuery("select * from SelectedCourses where id = \"" + id + "\"");
 
 			while (result.next()) {
 				Statement stmt2 = con.createStatement();
-				ResultSet courseResult = stmt2.executeQuery("select * from courses where code = \"" + result.getString("code") + "\"");
+				ResultSet courseResult = stmt2.executeQuery("select * from Courses where code = \"" + result.getString("code") + "\"");
 
 				if (courseResult.next()) {
 					Statement stmt3 = con.createStatement();
-					ResultSet prerequisitesResult = stmt3.executeQuery("select * from prerequisites where code = \"" + result.getString("code") + "\"");
+					ResultSet prerequisitesResult = stmt3.executeQuery("select * from Prerequisites where code = \"" + result.getString("code") + "\"");
 
 					List<String> prerequisites = new ArrayList<String>();
 					while (prerequisitesResult.next()) {
@@ -230,7 +230,7 @@ public class Student {
 					stmt3.close();
 
 					Statement stmt4 = con.createStatement();
-					ResultSet classDaysResult = stmt4.executeQuery("select * from coursedays where code = \"" + result.getString("code") + "\"");
+					ResultSet classDaysResult = stmt4.executeQuery("select * from CourseDays where code = \"" + result.getString("code") + "\"");
 					List<String> days = new ArrayList<String>();
 					while (classDaysResult.next()) {
 						days.add(classDaysResult.getString("day"));
@@ -265,7 +265,7 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("delete from selectedcourses where coursestate = \"NON_FINALIZED\"");
+			stmt.executeUpdate("delete from SelectedCourses where coursestate = \"NON_FINALIZED\"");
 			stmt.close();
 			con.close();
 		}
@@ -278,7 +278,7 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			ResultSet result = stmt.executeQuery("select * from selectedcourses where id = \"" + id + "\"");
+			ResultSet result = stmt.executeQuery("select * from SelectedCourses where id = \"" + id + "\"");
 
 			while (result.next()) {
 				Course this_course = BolbolestanApplication.getInstance().getCourse(result.getString("code"),
@@ -303,7 +303,7 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			ResultSet result = stmt.executeQuery("select * from selectedcourses where id = \"" + id + "\" and code = \"" + courseCode + "\"");
+			ResultSet result = stmt.executeQuery("select * from SelectedCourses where id = \"" + id + "\" and code = \"" + courseCode + "\"");
 			if (result.next()) has = true;
 			result.close();
 			stmt.close();
