@@ -118,7 +118,7 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("delete from selectedcourses where id = \"" + id + "\" and code = \"" + code + "\"");
+			stmt.executeUpdate("delete from SelectedCourses where id = \"" + id + "\" and code = \"" + code + "\"");
 			stmt.close();
 			con.close();
 		}
@@ -172,7 +172,7 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("update selectedcourses set courseState = \"FINALIZED\" where id = \""
+			stmt.executeUpdate("update SelectedCourses set courseState = \"FINALIZED\" where id = \""
 					+ id + "\"  and courseState = \"NON_FINALIZED\"");
 			stmt.close();
 			con.close();
@@ -265,7 +265,7 @@ public class Student {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			stmt.executeUpdate("delete from SelectedCourses where coursestate = \"NON_FINALIZED\"");
+			stmt.executeUpdate("delete from SelectedCourses where courseState = \"NON_FINALIZED\"");
 			stmt.close();
 			con.close();
 		}

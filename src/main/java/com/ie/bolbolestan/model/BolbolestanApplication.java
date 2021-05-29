@@ -91,10 +91,6 @@ public class BolbolestanApplication {
 
         Student student = null;
         try {
-            Connection con1 = ConnectionPool.getConnection();
-            Statement stmt1 = con1.createStatement();
-            ResultSet result1 = stmt1.executeQuery("USE BolbolestanDatabase");
-            con1.close();
             Connection con = ConnectionPool.getConnection();
             PreparedStatement stmt = con.prepareStatement("select * from BolbolestanDatabase.Students where email = ?");
             stmt.setString(1, email);

@@ -74,7 +74,7 @@ public class Course {
 		try {
 			Connection con = ConnectionPool.getConnection();
 			Statement stmt = con.createStatement();
-			ResultSet result = stmt.executeQuery("select count(*) as cnt from selectedcourses where code = " + this.code
+			ResultSet result = stmt.executeQuery("select count(*) as cnt from SelectedCourses where code = " + this.code
 					+ " and courseState = \"FINALIZED\"");
 			if (result.next())
 				num = result.getInt("cnt");
