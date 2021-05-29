@@ -1,4 +1,4 @@
-package com.ie.bolbolestan.model.waitingListTimer;
+package com.ie.bolbolestan.model.waitinglisttimer;
 
 import com.ie.bolbolestan.model.BolbolestanApplication;
 
