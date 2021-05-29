@@ -3,19 +3,24 @@ package com.ie.bolbolestan.repository;
 import org.apache.commons.dbcp.BasicDataSource;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
-    private final static String dbURL = "jdbc:mysql://localhost:3306/BolbolestanDatabase";
+    private final static String dbName = "BolbolestanDatabase";
+    private final static String dbURL = "jdbc:mysql://docker-mysql:3306/" + dbName;
     private final static String dbUserName = "root";
     private final static String dbPassword = "password";
 
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-        } catch (ClassNotFoundException e) {
+            Connection conn = DriverManager.getConnection("jdbc:mysql://docker-mysql:3306/?user=" + dbUserName + "&" + "password=" + dbPassword);
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
+        } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
         ds.setUsername(dbUserName);
