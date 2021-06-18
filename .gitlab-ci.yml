@@ -1,0 +1,14 @@
+docker-build:
+  image: docker:latest
+  stage: build
+
+  services:
+    - docker:dind
+
+  variables:
+    IMAGE: quay.io/mrazimi99/bolbolestan-backend
+
+  script:
+    - docker login -u="mrazimi99" -p="aDUkRaLvhHWSF+ogkABKGwyFc+GTzTqmnHmCTLo47TtFLCvVxaIT+PDjvKr2ECYh" quay.io
+    - docker build -t $IMAGE .
+    - docker push $IMAGE
