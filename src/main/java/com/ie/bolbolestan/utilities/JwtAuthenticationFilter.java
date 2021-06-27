@@ -27,7 +27,8 @@ public class JwtAuthenticationFilter implements Filter {
 		String uri = httpRequest.getRequestURI();
 
 		if(!(uri.contains("loggedin_student") || uri.contains("add_course") || uri.contains("remove_course")
-				|| uri.contains("finalize_courses") || uri.contains("reset") || uri.contains("new_pass"))) {
+				|| uri.contains("finalize_courses") || uri.contains("reset") || uri.contains("new_pass"))
+				|| httpRequest.getMethod().equals("OPTIONS")) {
 			chain.doFilter(request, response);
 			return;
 		}
