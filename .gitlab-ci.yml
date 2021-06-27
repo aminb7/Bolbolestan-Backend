@@ -6,9 +6,13 @@ docker-build:
     - docker:dind
 
   variables:
-    IMAGE: quay.io/mrazimi99/bolbolestan-backend
+    IMAGE: quay.io/mrazimi99/bolbolestan-backend:$CI_BUILD_REF
 
-  script:
+  before_script:
     - docker login -u="mrazimi99" -p="aDUkRaLvhHWSF+ogkABKGwyFc+GTzTqmnHmCTLo47TtFLCvVxaIT+PDjvKr2ECYh" quay.io
+  script:
     - docker build -t $IMAGE .
     - docker push $IMAGE
+    - docker rmi $IMAGE || true
+  after_script:
+    - docker logout quay.io
