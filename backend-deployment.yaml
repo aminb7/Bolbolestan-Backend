@@ -22,7 +22,7 @@ spec:
     spec:                     # Spec for the containers that will be run in the Pods
       containers:
         - name: backend
-          image: quay.io/mrazimi99/bolbolestan-backend:0350c835c9c7f4fb693a5ad4e6b81281038d6d42
+          image: quay.io/mrazimi99/bolbolestan-backend:cac9cd2b64aa1d87589ba7a732ebdb3461340475
           imagePullPolicy: Always
           env:
             - name: "DB_USERNAME"

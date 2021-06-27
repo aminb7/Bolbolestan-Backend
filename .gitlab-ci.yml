@@ -1,9 +1,14 @@
-docker-build:
-  image: docker:latest
-  stage: build
+image: docker:latest
 
-  services:
-    - docker:dind
+services:
+  - docker:dind
+
+stages:
+  - build
+  - deploy
+
+docker-build:
+  stage: build
 
   variables:
     IMAGE: quay.io/mrazimi99/bolbolestan-backend:$CI_BUILD_REF
@@ -16,3 +21,11 @@ docker-build:
     - docker rmi $IMAGE || true
   after_script:
     - docker logout quay.io
+
+deploy:
+  stage: deploy
+  when: manual
+  script:
+    - echo $KUBE_CONFIG | base64 -d > kube.config
+    - http_proxy=$PROXY_SERVER http_proxys=$PROXY_SERVER kubectl --kubeconfig kube.config set image deployment/backend backend=quay.io/mrazimi99/bolbolestan-backend:$CI_BUILD_REF
+    - rm kube.config
