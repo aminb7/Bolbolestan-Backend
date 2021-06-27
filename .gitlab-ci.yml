@@ -27,5 +27,5 @@ deploy:
   when: manual
   script:
     - echo $KUBE_CONFIG | base64 -d > kube.config
-    - http_proxy=$PROXY_SERVER http_proxys=$PROXY_SERVER kubectl --kubeconfig kube.config set image deployment/backend backend=quay.io/mrazimi99/bolbolestan-backend:$CI_BUILD_REF
+    - http_proxy=$PROXY_SERVER https_proxy=$PROXY_SERVER kubectl --kubeconfig kube.config set image deployment/backend backend=quay.io/mrazimi99/bolbolestan-backend:$CI_BUILD_REF
     - rm kube.config
