@@ -30,7 +30,7 @@ spec:
             - name: "DB_PASSWORD"
               value: "password"
           ports:
-            - containerPort: 8081 # The port that the container exposes
+            - containerPort: 8080 # The port that the container exposes
           resources:
             limits:
               cpu: "300m"
@@ -38,19 +38,3 @@ spec:
             requests:
               cpu: "300m"
               memory: "333Mi"
----
-apiVersion: v1                # API version
-kind: Service                 # Type of the kubernetes resource
-metadata:
-  name: backend    # Name of the kubernetes resource
-  labels:                     # Labels that will be applied to this resource
-    app: backend
-spec:
-  type: NodePort              # The service will be exposed by opening a Port on each node and proxying it.
-  selector:
-    app: backend   # The service exposes Pods with label `app=backend`
-  ports:                      # Forward incoming connections on port 8080 to the target port 8080
-    - name: http
-      port: 8080
-      nodePort: 31919
-      targetPort: 8080
