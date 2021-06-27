@@ -11,7 +11,7 @@ public class ConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
     private final static String dockerMysqlPath = "jdbc:mysql://docker-mysql:3306/";
     private final static String dbName = "BolbolestanDatabase";
-    private final static String dbURL = "jdbc:mysql://bolbolestan-mysql.amin-baqershahi-ns:3306/";
+    private final static String dbURL = "jdbc:mysql://bolbolestan-mysql.amin-baqershahi-ns:3306/" + dbName;
     private final static String dbUserName = "root";
     private final static String dbPassword = "password";
 
