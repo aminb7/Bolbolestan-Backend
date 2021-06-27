@@ -11,21 +11,21 @@ public class ConnectionPool {
     private static BasicDataSource ds = new BasicDataSource();
     private final static String dockerMysqlPath = "jdbc:mysql://docker-mysql:3306/";
     private final static String dbName = "BolbolestanDatabase";
-    private final static String dbURL = dockerMysqlPath + dbName;
+    private final static String dbURL = "jdbc:mysql://bolbolestan-mysql.amin-baqershahi-ns:3306/";
     private final static String dbUserName = "root";
     private final static String dbPassword = "password";
 
     static {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(dockerMysqlPath + "?user=" + dbUserName + "&" + "password=" + dbPassword);
+            Connection conn = DriverManager.getConnection(dbURL + "?user=" + System.getenv("DB_USERNAME" + "&" + "password=" + System.getenv("DB_PASSWORD"));
             Statement stmt = conn.createStatement();
             stmt.executeUpdate("CREATE DATABASE IF NOT EXISTS " + dbName);
         } catch (ClassNotFoundException | SQLException e) {
             System.out.println(e.getMessage());
         }
-        ds.setUsername(dbUserName);
-        ds.setPassword(dbPassword);
+        ds.setUsername(System.getenv("DB_USERNAME"));
+        ds.setPassword(System.getenv("DB_PASSWORD"));
         ds.setUrl(dbURL);
         ds.setMinIdle(5);
         ds.setMaxIdle(10);
