@@ -1,4 +1,4 @@
-image: quay.io/aminrf/docker-kubectl
+image: quay.io/mrazimi99/docker-kubectl
 
 services:
   - docker:dind
